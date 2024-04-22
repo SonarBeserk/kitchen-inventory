@@ -15,6 +15,9 @@ public class Product(string brand, string name, DateTime? expiry, ExpiryType? ex
     [StringLength(100)]
     public string Name { get; set; } = name;
 
+    [Required]
+    public Guid LocationId { get; set; }
+
     public DateTime? Expiry { get; set; } = expiry;
     public ExpiryType? ExpiryType { get; set; } = expiryType;
 
