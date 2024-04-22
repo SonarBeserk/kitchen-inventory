@@ -2,7 +2,7 @@
 
 namespace Web.Models;
 
-public class Product(string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable)
+public class ProductModel(string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable)
 {
     [Required]
     public Guid Id { get; set; } = new();
