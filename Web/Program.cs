@@ -15,9 +15,7 @@ builder.Services.AddSingleton<SqliteConnection>(options =>
     {
         throw new InvalidOperationException("Database connection string is missing or invalid");
     }
-    var conn = new SqliteConnection(sqlSetting);
-    conn.LoadExtension("mod_uuid");
-    return conn;
+    return new SqliteConnection(sqlSetting);
 });
 builder.Services.AddSingleton<IProductService, ProductService>();
 
