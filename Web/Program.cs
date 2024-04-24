@@ -40,4 +40,7 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+// Migrate the database
+SqlService.UpdateSchema(builder.Configuration.GetConnectionString("sqlite") ?? string.Empty);
+
 app.Run();
