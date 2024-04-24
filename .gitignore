@@ -44,3 +44,4 @@ msbuild.wrn
 
 # Sqlite databases
 *.sqlite
+*.db
