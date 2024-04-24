@@ -1,4 +1,3 @@
-using System.Data;
 using Microsoft.Data.Sqlite;
 using Web.Services;
 
@@ -15,7 +14,10 @@ builder.Services.AddSingleton<SqliteConnection>(options =>
     {
         throw new InvalidOperationException("Database connection string is missing or invalid");
     }
-    return new SqliteConnection(sqlSetting);
+
+    var conn = new SqliteConnection(sqlSetting);
+    conn.Open(); // Open long-running connection to save memory and io calls
+    return conn;
 });
 builder.Services.AddSingleton<IProductService, ProductService>();
 
