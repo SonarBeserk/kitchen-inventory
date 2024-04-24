@@ -1,4 +1,6 @@
-﻿using Web.Models;
+﻿using System.Data;
+using Microsoft.Data.Sqlite;
+using Web.Models;
 
 namespace Web.Services;
 
@@ -20,8 +22,10 @@ public interface IProductService
     public void AddProduct(ProductModel product);
 }
 
-public class ProductService : IProductService
+public class ProductService(SqliteConnection db) : IProductService
 {
+    private SqliteConnection _db = db;
+
     /// <summary>
     /// Lists all tracked products
     /// </summary>
