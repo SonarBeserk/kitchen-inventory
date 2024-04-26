@@ -36,6 +36,7 @@ public static class SqlService
         using var reader = command.ExecuteReader();
         reader.Read();
         var rawVersion = reader.GetString(0);
+        reader.Close();
         return int.Parse(rawVersion);
     }
 
