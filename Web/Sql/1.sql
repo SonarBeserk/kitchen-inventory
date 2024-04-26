@@ -4,7 +4,9 @@
     name TEXT NOT NULL,
     expiry NUMERIC,
     expiry_type INTEGER,
-    perishable BOOLEAN NOT NULL
+    perishable BOOLEAN NOT NULL,
+    location_id TEXT NOT NULL,
+    FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
 
 CREATE TABLE IF NOT EXISTS locations (
