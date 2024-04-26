@@ -5,4 +5,10 @@
     expiry NUMERIC,
     expiry_type INTEGER,
     perishable BOOLEAN NOT NULL
-)
+);
+
+CREATE TABLE IF NOT EXISTS locations (
+    location_id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT
+);
