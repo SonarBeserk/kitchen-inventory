@@ -62,5 +62,17 @@ public class ProductService(SqliteConnection db) : IProductService
     /// <param name="product">The new product</param>
     public void AddProduct(ProductModel product)
     {
+        ValidationContext vc = new ValidationContext(product);
+        Validator.ValidateObject(product, vc, true);
+
+        var command = _db.CreateCommand();
+        command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable, location_id) " +
+                              $"VALUES (\"{product.Id}\", \"{product.Brand}\", \"{product.Name}\", \"{product.Expiry}\", \"{product.ExpiryType}\", \"{product.Perishable}\", \"{product.LocationId}\");";
+
+        var resp = command.ExecuteNonQuery();
+        if (resp != 0)
+        {
+            Console.WriteLine($"Failed to insert product {product.Brand} {product.Name}");
+        }
     }
 }
