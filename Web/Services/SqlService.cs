@@ -26,6 +26,14 @@ public static class SqlService
 
         var migrations = FindMigrationsToApply(userVersion);
         Console.WriteLine($"Migrations to apply: {migrations.Count}");
+
+        if (migrations.Count <= 0)
+        {
+            return;
+        }
+
+        Console.WriteLine($"Applying {migrations.Count} migration files");
+        ApplyMigrations(conn, migrations);
     }
 
     private static int GetUserVersion(SqliteConnection conn)
@@ -63,5 +71,23 @@ public static class SqlService
         }
 
         return migrationFiles;
+    }
+
+    private static void ApplyMigrations(SqliteConnection conn, List<string> filePaths)
+    {
+        foreach (var filePath in filePaths)
+        {
+            var query = File.ReadAllText(filePath);
+            var command = conn.CreateCommand();
+            command.CommandText = query;
+
+            var resp = command.ExecuteNonQuery();
+            if (resp != 0)
+            {
+                Console.WriteLine($"Error applying migration {filePath}: {resp}");
+            }
+            
+            
+        }
     }
 }
