@@ -48,6 +48,23 @@ public static class SqlService
         return int.Parse(rawVersion);
     }
 
+    private static void SetUserVersion(SqliteConnection conn, int version)
+    {
+        if (version < 0)
+        {
+            throw new InvalidOperationException("Value must be positive");
+        }
+
+        var command = conn.CreateCommand();
+        command.CommandText = @"PRAGMA user_version = " + version + ";";
+
+        var resp = command.ExecuteNonQuery();
+        if (resp != 0)
+        {
+            throw new InvalidOperationException("Unable to update user version");
+        }
+    }
+
     private static Dictionary<int, string> FindMigrationsToApply(int appliedVersion)
     {
         var migrationFiles = new Dictionary<int, string>();
@@ -100,7 +117,7 @@ public static class SqlService
             }
 
             // Update user version so we can tell the migration completed
-            //SetUserVersion(conn, appliedVersion);
+            SetUserVersion(conn, appliedVersion);
             
             // Remove the migration from the dictionary to signal it no longer needs to run
             filePaths.Remove(appliedVersion);
