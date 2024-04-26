@@ -1,9 +1,12 @@
 ﻿using Microsoft.Data.Sqlite;
+using Microsoft.VisualBasic;
 
 namespace Web.Services;
 
 public static class SqlService
 {
+    private const string SqlMigrationsPath = "Sql/";
+
     /// <summary>
     /// Runs migrations to update the database schema
     /// </summary>
@@ -20,6 +23,9 @@ public static class SqlService
 
         var userVersion = GetUserVersion(conn);
         Console.WriteLine($"Database Version: {userVersion}");
+
+        var migrations = FindMigrationsToApply(userVersion);
+        Console.WriteLine($"Migrations to apply: {migrations.Count}");
     }
 
     private static int GetUserVersion(SqliteConnection conn)
@@ -31,5 +37,30 @@ public static class SqlService
         reader.Read();
         var rawVersion = reader.GetString(0);
         return int.Parse(rawVersion);
+    }
+
+    private static List<string> FindMigrationsToApply(int appliedVersion)
+    {
+        var migrationFiles = new List<string>();
+        var sqlFolderFiles = Directory.GetFiles(SqlMigrationsPath);
+        foreach (var filePath in sqlFolderFiles)
+        {
+            if (!filePath.EndsWith(".sql"))
+            {
+                continue;
+            }
+
+            var fileName = filePath.Replace(SqlMigrationsPath, "");
+            var versionString = fileName.Replace(".sql", "");
+            if (!int.TryParse(versionString, out var version)) continue;
+            if (version > 0 && version < appliedVersion)
+            {
+                continue;
+            }
+            
+            migrationFiles.Add(filePath);
+        }
+
+        return migrationFiles;
     }
 }
