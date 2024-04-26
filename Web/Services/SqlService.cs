@@ -50,9 +50,9 @@ public static class SqlService
 
     private static void SetUserVersion(SqliteConnection conn, int version)
     {
-        if (version < 0)
+        if (version < 1)
         {
-            throw new InvalidOperationException("Value must be positive");
+            throw new InvalidOperationException("Value must be greater than zero");
         }
 
         var command = conn.CreateCommand();
@@ -79,7 +79,7 @@ public static class SqlService
             var fileName = filePath.Replace(SqlMigrationsPath, "");
             var versionString = fileName.Replace(".sql", "");
             if (!int.TryParse(versionString, out var version)) continue;
-            if (version > 0 && version < appliedVersion)
+            if (version <= appliedVersion)
             {
                 continue;
             }
@@ -95,11 +95,7 @@ public static class SqlService
         // There are migrations left to apply
         while (filePaths.Count > 0)
         {
-            // Increase version if the first migration has been applied already
-            if (appliedVersion > 0)
-            {
-                appliedVersion++;
-            }
+            appliedVersion++;
 
             if(!filePaths.TryGetValue(appliedVersion, out var migrationPath))
             {
