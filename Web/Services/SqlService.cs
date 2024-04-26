@@ -33,7 +33,7 @@ public static class SqlService
         }
 
         Console.WriteLine($"Applying {migrations.Count} migration files");
-        ApplyMigrations(conn, migrations);
+        ApplyMigrations(conn, userVersion, migrations);
     }
 
     private static int GetUserVersion(SqliteConnection conn)
@@ -48,9 +48,9 @@ public static class SqlService
         return int.Parse(rawVersion);
     }
 
-    private static List<string> FindMigrationsToApply(int appliedVersion)
+    private static Dictionary<int, string> FindMigrationsToApply(int appliedVersion)
     {
-        var migrationFiles = new List<string>();
+        var migrationFiles = new Dictionary<int, string>();
         var sqlFolderFiles = Directory.GetFiles(SqlMigrationsPath);
         foreach (var filePath in sqlFolderFiles)
         {
@@ -66,28 +66,44 @@ public static class SqlService
             {
                 continue;
             }
-            
-            migrationFiles.Add(filePath);
+
+            migrationFiles[version] = filePath;
         }
 
         return migrationFiles;
     }
 
-    private static void ApplyMigrations(SqliteConnection conn, List<string> filePaths)
+    private static void ApplyMigrations(SqliteConnection conn, int appliedVersion, Dictionary<int, string> filePaths)
     {
-        foreach (var filePath in filePaths)
+        // There are migrations left to apply
+        while (filePaths.Count > 0)
         {
-            var query = File.ReadAllText(filePath);
+            // Increase version if the first migration has been applied already
+            if (appliedVersion > 0)
+            {
+                appliedVersion++;
+            }
+
+            if(!filePaths.TryGetValue(appliedVersion, out var migrationPath))
+            {
+                throw new InvalidOperationException($"Migration could not be found for migration {appliedVersion}");
+            }
+
+            var query = File.ReadAllText(migrationPath);
             var command = conn.CreateCommand();
             command.CommandText = query;
 
             var resp = command.ExecuteNonQuery();
             if (resp != 0)
             {
-                Console.WriteLine($"Error applying migration {filePath}: {resp}");
+                Console.WriteLine($"Error applying migration {migrationPath}: {resp}");
             }
+
+            // Update user version so we can tell the migration completed
+            //SetUserVersion(conn, appliedVersion);
             
-            
+            // Remove the migration from the dictionary to signal it no longer needs to run
+            filePaths.Remove(appliedVersion);
         }
     }
 }
