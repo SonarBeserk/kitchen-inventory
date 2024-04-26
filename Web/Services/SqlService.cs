@@ -4,6 +4,11 @@ namespace Web.Services;
 
 public static class SqlService
 {
+    /// <summary>
+    /// Runs migrations to update the database schema
+    /// </summary>
+    /// <param name="connectionString">The connection string for the datqbase</param>
+    /// <exception cref="InvalidOperationException">Error thrown if the database connection string is invalid</exception>
     public static void UpdateSchema(string connectionString)
     {
         if (string.IsNullOrWhiteSpace(connectionString))
