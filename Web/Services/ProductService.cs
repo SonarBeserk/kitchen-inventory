@@ -25,8 +25,6 @@ public interface IProductService
 
 public class ProductService(SqliteConnection db) : IProductService
 {
-    private SqliteConnection _db = db;
-
     /// <summary>
     /// Lists all tracked products
     /// </summary>
@@ -35,7 +33,7 @@ public class ProductService(SqliteConnection db) : IProductService
     {
         var productsList = new List<Product>();
 
-        var command = _db.CreateCommand();
+        var command = db.CreateCommand();
         command.CommandText = @"SELECT products.product_id, products.brand, products.name, products.expiry, products.expiry_type, products.perishable from products;";
 
         using var reader = command.ExecuteReader();
@@ -75,7 +73,7 @@ public class ProductService(SqliteConnection db) : IProductService
         var vc = new ValidationContext(product);
         Validator.ValidateObject(product, vc, true);
 
-        var command = _db.CreateCommand();
+        var command = db.CreateCommand();
         command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable) " +
                               $"VALUES (@id, @brand, @name, @expiry, @expiryType, @perishable);";
         command.Parameters.AddWithValue("@id", product.Id);
