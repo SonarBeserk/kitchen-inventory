@@ -2,7 +2,7 @@
 
 namespace Web.Models;
 
-public class LocationModel(string name, string description)
+public class Location(string name, string description)
 {
     [Required]
     public Guid Id { get; set; } = new();

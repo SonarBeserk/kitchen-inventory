@@ -2,14 +2,14 @@
 
 namespace Web.Models;
 
-public class ProductModel(
+public class Product(
     string brand,
     string name,
     DateTime? expiry,
     ExpiryType? expiryType,
     bool perishable)
 {
-    public ProductModel(Guid id, string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable)
+    public Product(Guid id, string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable)
         : this(brand, name, expiry, expiryType, perishable)
     {
         Id = id;

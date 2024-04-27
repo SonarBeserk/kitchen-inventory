@@ -14,13 +14,13 @@ public interface IProductService
     /// Lists all tracked products
     /// </summary>
     /// <returns>All products being stored</returns>
-    public List<ProductModel> ListProducts();
+    public List<Product> ListProducts();
 
     /// <summary>
     /// Adds a new product to store
     /// </summary>
     /// <param name="product">The new product</param>
-    public void AddProduct(ProductModel product);
+    public void AddProduct(Product product);
 }
 
 public class ProductService(SqliteConnection db) : IProductService
@@ -31,9 +31,9 @@ public class ProductService(SqliteConnection db) : IProductService
     /// Lists all tracked products
     /// </summary>
     /// <returns>All products being stored</returns>
-    public List<ProductModel> ListProducts()
+    public List<Product> ListProducts()
     {
-        var productsList = new List<ProductModel>();
+        var productsList = new List<Product>();
 
         var command = _db.CreateCommand();
         command.CommandText = @"SELECT products.product_id, products.brand, products.name, products.expiry, products.expiry_type, products.perishable, products.location_id from products;";
@@ -41,7 +41,7 @@ public class ProductService(SqliteConnection db) : IProductService
         using var reader = command.ExecuteReader();
         while (reader.Read())
         {
-            var product = new ProductModel(
+            var product = new Product(
                 (Guid)reader["product_id"],
                 (string)reader["brand"],
                 (string)reader["name"],
@@ -59,7 +59,7 @@ public class ProductService(SqliteConnection db) : IProductService
     /// Adds a new product to store
     /// </summary>
     /// <param name="product">The new product</param>
-    public void AddProduct(ProductModel product)
+    public void AddProduct(Product product)
     {
         ValidationContext vc = new ValidationContext(product);
         Validator.ValidateObject(product, vc, true);
