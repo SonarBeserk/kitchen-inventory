@@ -60,12 +60,18 @@ public class ProductService(SqliteConnection db) : IProductService
     /// <param name="product">The new product</param>
     public void AddProduct(Product product)
     {
-        ValidationContext vc = new ValidationContext(product);
+        var vc = new ValidationContext(product);
         Validator.ValidateObject(product, vc, true);
 
         var command = _db.CreateCommand();
         command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable) " +
-                              $"VALUES (\"{product.Id}\", \"{product.Brand}\", \"{product.Name}\", \"{product.Expiry}\", \"{product.ExpiryType}\", \"{product.Perishable}\");";
+                              $"VALUES (@id, @brand, @name, @expiry, @expiryType, @perishable);";
+        command.Parameters.AddWithValue("@id", product.Id);
+        command.Parameters.AddWithValue("@brand", product.Brand);
+        command.Parameters.AddWithValue("@name", product.Name);
+        command.Parameters.AddWithValue("@expiry", product.Expiry.HasValue ? product.Expiry : DBNull.Value);
+        command.Parameters.AddWithValue("@expiryType", product.ExpiryType);
+        command.Parameters.AddWithValue("@perishable", product.Perishable);
 
         var resp = command.ExecuteNonQuery();
         if (resp != 0)
