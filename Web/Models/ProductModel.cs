@@ -7,22 +7,10 @@ public class ProductModel(
     string name,
     DateTime? expiry,
     ExpiryType? expiryType,
-    bool perishable,
-    Guid locationId)
+    bool perishable)
 {
-    public ProductModel(string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable, LocationModel location)
-        : this(brand, name, expiry, expiryType, perishable, location.Id)
-    {
-    }
-
-    public ProductModel(Guid id, string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable, LocationModel location)
-        : this(brand, name, expiry, expiryType, perishable, location)
-    {
-        Id = id;
-    }
-
-    public ProductModel(Guid id, string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable, Guid locationId)
-        : this(brand, name, expiry, expiryType, perishable, locationId)
+    public ProductModel(Guid id, string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable)
+        : this(brand, name, expiry, expiryType, perishable)
     {
         Id = id;
     }
@@ -37,9 +25,6 @@ public class ProductModel(
     [Required]
     [StringLength(100)]
     public string Name { get; set; } = name;
-
-    [Required]
-    public Guid LocationId { get; set; } = locationId;
 
     public DateTime? Expiry { get; set; } = expiry;
     public ExpiryType? ExpiryType { get; set; } = expiryType;

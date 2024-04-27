@@ -47,8 +47,7 @@ public class ProductService(SqliteConnection db) : IProductService
                 (string)reader["name"],
                 (DateTime?)reader["expiry"],
                 (ExpiryType?)reader["expiry_type"],
-                (bool)reader["perishable"],
-                (Guid)reader["location_id"]);
+                (bool)reader["perishable"]);
 
             productsList.Add(product);
         }
@@ -66,8 +65,8 @@ public class ProductService(SqliteConnection db) : IProductService
         Validator.ValidateObject(product, vc, true);
 
         var command = _db.CreateCommand();
-        command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable, location_id) " +
-                              $"VALUES (\"{product.Id}\", \"{product.Brand}\", \"{product.Name}\", \"{product.Expiry}\", \"{product.ExpiryType}\", \"{product.Perishable}\", \"{product.LocationId}\");";
+        command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable) " +
+                              $"VALUES (\"{product.Id}\", \"{product.Brand}\", \"{product.Name}\", \"{product.Expiry}\", \"{product.ExpiryType}\", \"{product.Perishable}\");";
 
         var resp = command.ExecuteNonQuery();
         if (resp != 0)
