@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Data;
 using Microsoft.Data.Sqlite;
 using Web.Models;
 
