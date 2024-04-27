@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data.SqlTypes;
 using Microsoft.Data.Sqlite;
 using Web.Models;
 
@@ -41,15 +42,16 @@ public class ProductService(SqliteConnection db) : IProductService
         while (reader.Read())
         {
             var product = new Product(
-                (Guid)reader["product_id"],
+                Guid.Parse((string)reader["product_id"]),
                 (string)reader["brand"],
                 (string)reader["name"],
-                (DateTime?)reader["expiry"],
-                (ExpiryType?)reader["expiry_type"],
-                (bool)reader["perishable"]);
+                reader["expiry"] == DBNull.Value ? null : new DateTime((long)reader["expiry"]),
+                Enum.TryParse<ExpiryType>(reader["expiry_type"].ToString(), out var expiryType) ? expiryType : null,
+                Convert.ToBoolean((long)reader["perishable"]));
 
             productsList.Add(product);
         }
+        reader.Close();
 
         return productsList;
     }
