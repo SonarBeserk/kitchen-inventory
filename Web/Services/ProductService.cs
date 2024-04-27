@@ -86,7 +86,7 @@ public class ProductService(SqliteConnection db) : IProductService
         command.Parameters.AddWithValue("@perishable", product.Perishable);
 
         var resp = command.ExecuteNonQuery();
-        if (resp != 0)
+        if (resp != 1)
         {
             Console.WriteLine($"Failed to insert product {product.Brand} {product.Name}");
         }
