@@ -39,15 +39,25 @@ public class ProductService(SqliteConnection db) : IProductService
         command.CommandText = @"SELECT products.product_id, products.brand, products.name, products.expiry, products.expiry_type, products.perishable from products;";
 
         using var reader = command.ExecuteReader();
+
+        // SqlDataReader is based on ordinal values, using the string index does this anyway,
+        // but we can use the helper functions if we grab the ordinal values directly.
+        var productId = reader.GetOrdinal("product_id");
+        var brand = reader.GetOrdinal("brand");
+        var name = reader.GetOrdinal("name");
+        var expiry = reader.GetOrdinal("expiry");
+        var expiryEnum = reader.GetOrdinal("expiry_type");
+        var perishable = reader.GetOrdinal("perishable");
+
         while (reader.Read())
         {
             var product = new Product(
-                Guid.Parse((string)reader["product_id"]),
-                (string)reader["brand"],
-                (string)reader["name"],
-                reader["expiry"] == DBNull.Value ? null : new DateTime((long)reader["expiry"]),
-                Enum.TryParse<ExpiryType>(reader["expiry_type"].ToString(), out var expiryType) ? expiryType : null,
-                Convert.ToBoolean((long)reader["perishable"]));
+                reader.GetGuid(productId),
+                reader.GetString(brand),
+                reader.GetString(name),
+                reader.GetValue(expiry) == DBNull.Value ? null : new DateTime(reader.GetInt64(perishable)),
+                Enum.TryParse<ExpiryType>(reader.GetString(expiryEnum), out var expiryType) ? expiryType : null,
+                reader.GetBoolean(perishable));
 
             productsList.Add(product);
         }
