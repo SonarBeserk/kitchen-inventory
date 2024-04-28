@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 // Handle dependency injection
-builder.Services.AddSingleton<SqliteConnection>(options =>
+builder.Services.AddSingleton<SqliteConnection>(_ =>
 {
     var sqlSetting = builder.Configuration.GetConnectionString("sqlite");
     if (string.IsNullOrWhiteSpace(sqlSetting))
