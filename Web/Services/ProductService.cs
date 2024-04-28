@@ -31,7 +31,7 @@ public class ProductService(SqliteConnection db) : IProductService
     /// <returns>All products being stored</returns>
     public List<Product> ListProducts()
     {
-        var productsList = new List<Product>();
+        var products = new List<Product>();
 
         var command = db.CreateCommand();
         command.CommandText = @"SELECT products.product_id, products.brand, products.name, products.expiry, products.expiry_type, products.perishable from products;";
@@ -57,11 +57,11 @@ public class ProductService(SqliteConnection db) : IProductService
                 Enum.TryParse<ExpiryType>(reader.GetString(expiryEnum), out var expiryType) ? expiryType : null,
                 reader.GetBoolean(perishable));
 
-            productsList.Add(product);
+            products.Add(product);
         }
         reader.Close();
 
-        return productsList;
+        return products;
     }
 
     /// <summary>
