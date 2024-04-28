@@ -20,6 +20,7 @@ builder.Services.AddSingleton<SqliteConnection>(_ =>
     return conn;
 });
 builder.Services.AddSingleton<IProductService, ProductService>();
+builder.Services.AddSingleton<ILocationService, LocationService>();
 
 var app = builder.Build();
 

@@ -4,6 +4,12 @@ namespace Web.Models;
 
 public class Location(string name, string description)
 {
+    public Location(Guid id, string name, string description)
+        : this(name, description)
+    {
+        Id = id;
+    }
+
     [Required]
     public Guid Id { get; set; } = new();
 
