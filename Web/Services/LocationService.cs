@@ -7,6 +7,7 @@ namespace Web.Services;
 public interface ILocationService
 {
     public List<Location> ListLocations();
+    public void AddLocation(Location location);
 }
 
 public class LocationService(SqliteConnection db) : ILocationService
@@ -40,3 +41,22 @@ public class LocationService(SqliteConnection db) : ILocationService
         return locations;
     }
 
+    public void AddLocation(Location location)
+    {
+        var vc = new ValidationContext(location);
+        Validator.ValidateObject(location, vc, true);
+
+        var command = db.CreateCommand();
+        command.CommandText = "INSERT INTO locations(location_id, name, description) " +
+                              "VALUES (@id, @name, @description);";
+        command.Parameters.AddWithValue("@id", location.Id);
+        command.Parameters.AddWithValue("@name", location.Name);
+        command.Parameters.AddWithValue("@description", location.Description);
+
+        var resp = command.ExecuteNonQuery();
+        if (resp != 1)
+        {
+            Console.WriteLine("Failed to insert location {0}", location.Name);
+        }
+    }
+}
