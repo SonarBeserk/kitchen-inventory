@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Data.SqlTypes;
 using Microsoft.Data.Sqlite;
 using Web.Models;
 
@@ -75,7 +74,7 @@ public class ProductService(SqliteConnection db) : IProductService
 
         var command = db.CreateCommand();
         command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable) " +
-                              $"VALUES (@id, @brand, @name, @expiry, @expiryType, @perishable);";
+                              "VALUES (@id, @brand, @name, @expiry, @expiryType, @perishable);";
         command.Parameters.AddWithValue("@id", product.Id);
         command.Parameters.AddWithValue("@brand", product.Brand);
         command.Parameters.AddWithValue("@name", product.Name);
