@@ -85,7 +85,7 @@ public class ProductService(SqliteConnection db) : IProductService
         var resp = command.ExecuteNonQuery();
         if (resp != 1)
         {
-            Console.WriteLine($"Failed to insert product {product.Brand} {product.Name}");
+            Console.WriteLine("Failed to insert product {0} {1}", product.Brand, product.Name);
         }
     }
 }
