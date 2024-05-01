@@ -9,7 +9,7 @@
             <td>@product.Brand</td>
             <td>@product.Name</td>
             <td>@product.Amount</td>
-            <td>@(product.LocationId != null && Model.Locations.TryGetValue(product.LocationId.Value.ToString(), out var location) ? location.Name : "Unknown") </td>
+            <td>@(product.LocationId != null && Model.Locations != null && Model.Locations.TryGetValue(product.LocationId.Value.ToString(), out var location) ? location.Name : "Unknown") </td>
             <td>@(product is { Expiry: not null, ExpiryType: not null } ? product.ExpiryType + " " + product.Expiry.Value : "N/A")</td>
             <td>@product.Perishable</td>
         </tr>
