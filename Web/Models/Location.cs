@@ -11,7 +11,7 @@ public class Location(string name, string description)
     }
 
     [Required]
-    public Guid Id { get; set; } = new();
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     [Required]
     [StringLength(100)]
