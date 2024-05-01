@@ -33,8 +33,6 @@ public class ProductsModel : PageModel
                 p.Brand.Contains(Query, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
-        _logger.Log(LogLevel.Information, "Results: {0}", Results.Count);
-
         if (!Request.IsHtmx())
         {
             return Page();
