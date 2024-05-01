@@ -8,8 +8,9 @@
         <tr>
             <td>@product.Brand</td>
             <td>@product.Name</td>
-            <!-- Improve expiration display -->
-            <td>@product.Expiry</td>
+            <td>@product.Amount</td>
+            <td>@(product.LocationId != null && Model.Locations.TryGetValue(product.LocationId.Value.ToString(), out var location) ? location.Name : "Unknown") </td>
+            <td>@(product is { Expiry: not null, ExpiryType: not null } ? product.ExpiryType + " " + product.Expiry.Value : "N/A")</td>
             <td>@product.Perishable</td>
         </tr>
     }
@@ -17,6 +18,6 @@
 else
 {
     <tr>
-        <td colspan="5">No Products Found</td>
+        <td colspan="6" class="text-center">No Products Found</td>
     </tr>
 }

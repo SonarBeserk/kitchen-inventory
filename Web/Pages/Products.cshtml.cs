@@ -11,10 +11,14 @@ public class ProductsModel : PageModel
 {
     private readonly ILogger<PrivacyModel> _logger;
     private readonly IProductService _productService;
-    public ProductsModel(ILogger<PrivacyModel> logger, IProductService productService)
+    private readonly ILocationService _locationService;
+
+    public ProductsModel(ILogger<PrivacyModel> logger, IProductService productService, ILocationService locationService)
     {
         _logger = logger;
         _productService = productService;
+        _locationService = locationService;
+
         ProductResults = new List<Product>();
     }
 
@@ -22,10 +26,12 @@ public class ProductsModel : PageModel
     public string? Query { get; set; }
 
     public List<Product> ProductResults { get; private set; }
+    public Dictionary<string, Location> Locations {get; private set; }
 
     public IActionResult OnGet()
     {
         var products = _productService.ListProducts();
+        Locations = _locationService.ListLocations().ToDictionary(l => l.Name, l => l);
         ProductResults = string.IsNullOrEmpty(Query)
             ? products
             : products.Where(p =>
