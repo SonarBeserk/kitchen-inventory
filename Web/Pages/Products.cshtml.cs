@@ -18,15 +18,13 @@ public class ProductsModel : PageModel
         _logger = logger;
         _productService = productService;
         _locationService = locationService;
-
-        ProductResults = new List<Product>();
     }
 
     [BindProperty(SupportsGet = true)]
     public string? Query { get; set; }
 
-    public List<Product> ProductResults { get; private set; }
-    public Dictionary<string, Location> Locations {get; private set; }
+    public List<Product>? ProductResults { get; private set; }
+    public Dictionary<string, Location>? Locations {get; private set; }
 
     public IActionResult OnGet()
     {
