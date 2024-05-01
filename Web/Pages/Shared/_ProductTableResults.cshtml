@@ -1,7 +1,7 @@
 ﻿@model ProductsModel
 @{ ArgumentNullException.ThrowIfNull(Model); }
 
-@if (Model.Results is { Count: > 0 } products)
+@if (Model.ProductResults is { Count: > 0 } products)
 {
     @foreach (var product in products)
     {

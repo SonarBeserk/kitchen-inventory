@@ -15,18 +15,18 @@ public class ProductsModel : PageModel
     {
         _logger = logger;
         _productService = productService;
-        Results = new List<Product>();
+        ProductResults = new List<Product>();
     }
 
     [BindProperty(SupportsGet = true)]
     public string? Query { get; set; }
 
-    public List<Product> Results { get; private set; }
+    public List<Product> ProductResults { get; private set; }
 
     public IActionResult OnGet()
     {
         var products = _productService.ListProducts();
-        Results = string.IsNullOrEmpty(Query)
+        ProductResults = string.IsNullOrEmpty(Query)
             ? products
             : products.Where(p =>
                 p.Name.Contains(Query, StringComparison.OrdinalIgnoreCase) ||
