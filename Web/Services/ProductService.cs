@@ -33,7 +33,16 @@ public class ProductService(SqliteConnection db) : IProductService
         var products = new List<Product>();
 
         var command = db.CreateCommand();
-        command.CommandText = @"SELECT products.product_id, products.brand, products.name, products.expiry, products.expiry_type, products.perishable from products;";
+        command.CommandText = @"SELECT
+products.product_id,
+products.brand,
+products.name,
+products.expiry,
+products.expiry_type,
+products.perishable,
+products.amount,
+products.location_id
+from products;";
 
         using var reader = command.ExecuteReader();
 
@@ -45,6 +54,8 @@ public class ProductService(SqliteConnection db) : IProductService
         var expiry = reader.GetOrdinal("expiry");
         var expiryEnum = reader.GetOrdinal("expiry_type");
         var perishable = reader.GetOrdinal("perishable");
+        var amount = reader.GetOrdinal("amount");
+        var locationId = reader.GetOrdinal("location_id");
 
         while (reader.Read())
         {
@@ -53,8 +64,10 @@ public class ProductService(SqliteConnection db) : IProductService
                 reader.GetString(brand),
                 reader.GetString(name),
                 reader.GetValue(expiry) == DBNull.Value ? null : new DateTime(reader.GetInt64(perishable)),
-                Enum.TryParse<ExpiryType>(reader.GetString(expiryEnum), out var expiryType) ? expiryType : null,
-                reader.GetBoolean(perishable));
+                reader.GetValue(expiryEnum) == DBNull.Value ? null : Enum.TryParse<ExpiryType>(reader.GetString(expiryEnum), out var expiryType) ? expiryType : null,
+                reader.GetBoolean(perishable),
+                reader.GetInt64(amount),
+                reader.GetValue(locationId) == DBNull.Value ? null : reader.GetGuid(locationId));
 
             products.Add(product);
         }
@@ -73,14 +86,16 @@ public class ProductService(SqliteConnection db) : IProductService
         Validator.ValidateObject(product, vc, true);
 
         var command = db.CreateCommand();
-        command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable) " +
-                              "VALUES (@id, @brand, @name, @expiry, @expiryType, @perishable);";
+        command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable, amount, location_id) " +
+                              "VALUES (@id, @brand, @name, @expiry, @expiryType, @perishable, @amount, @locationid);";
         command.Parameters.AddWithValue("@id", product.Id);
         command.Parameters.AddWithValue("@brand", product.Brand);
         command.Parameters.AddWithValue("@name", product.Name);
         command.Parameters.AddWithValue("@expiry", product.Expiry.HasValue ? product.Expiry : DBNull.Value);
-        command.Parameters.AddWithValue("@expiryType", product.ExpiryType);
+        command.Parameters.AddWithValue("@expiryType", product.ExpiryType.HasValue ? product.ExpiryType : DBNull.Value);
         command.Parameters.AddWithValue("@perishable", product.Perishable);
+        command.Parameters.AddWithValue("@amount", product.Amount);
+        command.Parameters.AddWithValue("@locationid", product.LocationId.HasValue ? product.LocationId : DBNull.Value);
 
         var resp = command.ExecuteNonQuery();
         if (resp != 1)
