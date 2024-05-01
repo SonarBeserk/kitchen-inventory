@@ -24,12 +24,12 @@ public class ProductsModel : PageModel
     public string? Query { get; set; }
 
     public List<Product>? ProductResults { get; private set; }
-    public Dictionary<string, Location>? Locations {get; private set; }
+    public Dictionary<Guid, Location>? Locations {get; private set; }
 
     public IActionResult OnGet()
     {
         var products = _productService.ListProducts();
-        Locations = _locationService.ListLocations().ToDictionary(l => l.Name, l => l);
+        Locations = _locationService.ListLocations().ToDictionary(l => l.Id, l => l);
         ProductResults = string.IsNullOrEmpty(Query)
             ? products
             : products.Where(p =>
