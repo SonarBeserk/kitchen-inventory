@@ -5,12 +5,26 @@ namespace Web.Models;
 public class Product(
     string brand,
     string name,
-    DateTime? expiry,
-    ExpiryType? expiryType,
-    bool perishable)
+    bool perishable,
+    long amount)
 {
-    public Product(Guid id, string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable)
-        : this(brand, name, expiry, expiryType, perishable)
+    public Product(string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable, long amount, Guid? locationId)
+        : this(brand, name, perishable, amount)
+    {
+        Expiry = expiry;
+        ExpiryType = expiryType;
+        LocationId = locationId;
+    }
+
+    public Product(string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable, long amount)
+        : this(brand, name, perishable, amount)
+    {
+        Expiry = expiry;
+        ExpiryType = expiryType;
+    }
+
+    public Product(Guid id, string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable, long amount, Guid? locationId)
+        : this(brand, name, expiry, expiryType, perishable, amount, locationId)
     {
         Id = id;
     }
@@ -26,10 +40,14 @@ public class Product(
     [StringLength(100)]
     public string Name { get; set; } = name;
 
-    public DateTime? Expiry { get; set; } = expiry;
-    public ExpiryType? ExpiryType { get; set; } = expiryType;
+    public DateTime? Expiry { get; set; }
+    public ExpiryType? ExpiryType { get; set; }
 
     public bool Perishable { get; set; } = perishable;
+
+    public long Amount { get; set; } = amount;
+
+    public Guid? LocationId { get; set; }
 }
 
 public enum ExpiryType
