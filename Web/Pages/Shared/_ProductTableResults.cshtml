@@ -1,0 +1,23 @@
+﻿@model ProductsModel
+@{ ArgumentNullException.ThrowIfNull(Model); }
+
+@if (Model.Results is { Count: > 0 } products)
+{
+    @foreach (var product in products)
+    {
+        <tr>
+            <td>@product.Id</td>
+            <td>@product.Brand</td>
+            <td>@product.Name</td>
+            <!-- Improve expiration display -->
+            <td>@product.Expiry</td>
+            <td>@product.Perishable</td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="5">No Products Found</td>
+    </tr>
+}

@@ -4,6 +4,34 @@
     ViewData["Title"] = "Products";
 }
 
-<div class="text-center">
-    <partial name="Shared/_ProductTablePartial"/>
+<div>
+    <div class="input-group mb-3">
+        <input type="text"
+               asp-for="Query"
+               id="query"
+               hx-get="@Url.Page("Products")"
+               hx-target="#results"
+               hx-trigger="keyup changed delay:250ms"
+               autocomplete="off"
+               placeholder="Search"
+               class="form-control"
+               aria-label="Product"
+               aria-describedby="search-addon"/>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Name</th>
+                <th scope="col">Expiration</th>
+                <th scope="col">Perishable</th>
+            </tr>
+            </thead>
+            <tbody id="results">
+            @await Html.PartialAsync("Shared/_ProductTableResults")
+            </tbody>
+        </table>
+    </div>
 </div>
