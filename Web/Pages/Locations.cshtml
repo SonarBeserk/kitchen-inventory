@@ -1,0 +1,41 @@
+﻿@page
+@model Web.Pages.LocationsModel
+@{
+    ViewData["Title"] = "Locations";
+}
+
+<div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">
+                <i class="bi bi-search"></i>
+            </span>
+        </div>
+        <input type="text"
+               asp-for="Query"
+               id="query"
+               hx-get="@Url.Page("Locations")"
+               hx-target="#results"
+               hx-trigger="keyup changed delay:250ms"
+               autocomplete="off"
+               placeholder="Search"
+               class="form-control text-center"
+               aria-label="Location Search"
+               aria-describedby="search-addon"/>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <caption>List of Locations</caption>
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody id="results">
+            @await Html.PartialAsync("Shared/_LocationTableResults")
+            </tbody>
+        </table>
+    </div>
+</div>

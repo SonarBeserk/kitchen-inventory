@@ -1,0 +1,20 @@
+﻿@model Web.Pages.LocationsModel
+@{ ArgumentNullException.ThrowIfNull(Model); }
+
+@if (Model.LocationResults is { Count: > 0 } locations)
+{
+    @foreach (var location in locations)
+    {
+        <tr>
+            <td></td>
+            <td>@location.Name</td>
+            <td>@location.Description</td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="3" class="text-center">No Locations Found</td>
+    </tr>
+}
