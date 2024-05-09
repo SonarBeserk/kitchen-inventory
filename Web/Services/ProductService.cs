@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.Data.Sqlite;
 using Web.Models;
 
 namespace Web.Services;
@@ -15,10 +16,10 @@ public interface IProductService
     public List<Product> ListAllDetails();
 
     /// <summary>
-    /// Adds a new product to store
+    /// Adds a new product to the store
     /// </summary>
     /// <param name="product">The new product</param>
-    public void AddProduct(Product product);
+    public void AddDetails(Product product);
 }
 
 public class ProductService(SqliteConnection db) : IProductService
@@ -58,30 +59,25 @@ public class ProductService(SqliteConnection db) : IProductService
     }
 
     /// <summary>
-    /// Adds a new product to store
+    /// Adds a new product to the store
     /// </summary>
     /// <param name="product">The new product</param>
-    public void AddProduct(Product product)
+    public void AddDetails(Product product)
     {
-        // var vc = new ValidationContext(product);
-        // Validator.ValidateObject(product, vc, true);
-        //
-        // var command = db.CreateCommand();
-        // command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable, amount, location_id) " +
-        //                       "VALUES (@id, @brand, @name, @expiry, @expiryType, @perishable, @amount, @locationid);";
-        // command.Parameters.AddWithValue("@id", product.Id);
-        // command.Parameters.AddWithValue("@brand", product.Brand);
-        // command.Parameters.AddWithValue("@name", product.Name);
-        // command.Parameters.AddWithValue("@expiry", product.Expiry.HasValue ? product.Expiry : DBNull.Value);
-        // command.Parameters.AddWithValue("@expiryType", product.ExpiryType.HasValue ? product.ExpiryType : DBNull.Value);
-        // command.Parameters.AddWithValue("@perishable", product.Perishable);
-        // command.Parameters.AddWithValue("@amount", product.Amount);
-        // command.Parameters.AddWithValue("@locationid", product.LocationId.HasValue ? product.LocationId : DBNull.Value);
-        //
-        // var resp = command.ExecuteNonQuery();
-        // if (resp != 1)
-        // {
-        //     Console.WriteLine("Failed to insert product {0} {1}", product.Brand, product.Name);
-        // }
+        var vc = new ValidationContext(product);
+        Validator.ValidateObject(product, vc, true);
+        
+        var command = db.CreateCommand();
+        command.CommandText = "INSERT INTO products(product_id, brand, name) " +
+                              "VALUES (@id, @brand, @name);";
+        command.Parameters.AddWithValue("@id", product.Id);
+        command.Parameters.AddWithValue("@brand", product.Brand);
+        command.Parameters.AddWithValue("@name", product.Name);
+        
+        var resp = command.ExecuteNonQuery();
+        if (resp != 1)
+        {
+            Console.WriteLine("Failed to insert product {0} {1}", product.Brand, product.Name);
+        }
     }
 }
