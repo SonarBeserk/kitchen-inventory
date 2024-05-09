@@ -9,10 +9,10 @@ namespace Web.Services;
 public interface IProductService
 {
     /// <summary>
-    /// Lists all tracked products
+    /// Lists details of all tracked products
     /// </summary>
     /// <returns>All products being stored</returns>
-    public List<Product> ListProducts();
+    public List<Product> ListAllDetails();
 
     /// <summary>
     /// Adds a new product to store
@@ -27,7 +27,7 @@ public class ProductService(SqliteConnection db) : IProductService
     /// Lists all tracked products
     /// </summary>
     /// <returns>All products being stored</returns>
-    public List<Product> ListProducts()
+    public List<Product> ListAllDetails()
     {
         var products = new List<Product>();
 
