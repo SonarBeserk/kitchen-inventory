@@ -4,27 +4,39 @@ namespace Web.Models;
 
 public class Product(
     string brand,
-    string name,
-    bool perishable,
-    long amount)
+    string name)
 {
-    public Product(string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable, long amount, Guid? locationId)
-        : this(brand, name, perishable, amount)
+    public Product(Guid id, string brand, string name) :
+        this(brand, name)
     {
-        Expiry = expiry;
-        ExpiryType = expiryType;
+        Id = id;
+    }
+
+    public Product(string brand, string name, Guid? locationId, bool perishable, long amount) :
+        this(brand, name)
+    {
         LocationId = locationId;
+        Perishable = perishable;
+        Amount = amount;
     }
 
-    public Product(string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable, long amount)
-        : this(brand, name, perishable, amount)
+    public Product(Guid id, string brand, string name, Guid? locationId, bool perishable, long amount) :
+        this(id, brand, name)
+    {
+        LocationId = locationId;
+        Perishable = perishable;
+        Amount = amount;
+    }
+
+    public Product(string brand, string name, Guid? locationId, bool perishable, long amount, DateTime? expiry, ExpiryType? expiryType)
+        : this(brand, name, locationId, perishable, amount)
     {
         Expiry = expiry;
         ExpiryType = expiryType;
     }
 
-    public Product(Guid id, string brand, string name, DateTime? expiry, ExpiryType? expiryType, bool perishable, long amount, Guid? locationId)
-        : this(brand, name, expiry, expiryType, perishable, amount, locationId)
+    public Product(Guid id, string brand, string name, Guid? locationId, bool perishable, long amount, DateTime? expiry, ExpiryType? expiryType)
+        : this(brand, name, locationId, perishable, amount, expiry, expiryType)
     {
         Id = id;
     }
@@ -43,9 +55,9 @@ public class Product(
     public DateTime? Expiry { get; set; }
     public ExpiryType? ExpiryType { get; set; }
 
-    public bool Perishable { get; set; } = perishable;
+    public bool Perishable { get; set; }
 
-    public long Amount { get; set; } = amount;
+    public long Amount { get; set; }
 
     public Guid? LocationId { get; set; }
 }

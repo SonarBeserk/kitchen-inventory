@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Web.Models;
 
 namespace Web.Services;
@@ -36,12 +35,7 @@ public class ProductService(SqliteConnection db) : IProductService
         command.CommandText = @"SELECT
 products.product_id,
 products.brand,
-products.name,
-products.expiry,
-products.expiry_type,
-products.perishable,
-products.amount,
-products.location_id
+products.name
 from products;";
 
         using var reader = command.ExecuteReader();
@@ -51,23 +45,14 @@ from products;";
         var productId = reader.GetOrdinal("product_id");
         var brand = reader.GetOrdinal("brand");
         var name = reader.GetOrdinal("name");
-        var expiry = reader.GetOrdinal("expiry");
-        var expiryEnum = reader.GetOrdinal("expiry_type");
-        var perishable = reader.GetOrdinal("perishable");
-        var amount = reader.GetOrdinal("amount");
-        var locationId = reader.GetOrdinal("location_id");
 
         while (reader.Read())
         {
             var product = new Product(
                 reader.GetGuid(productId),
                 reader.GetString(brand),
-                reader.GetString(name),
-                reader.GetValue(expiry) == DBNull.Value ? null : new DateTime(reader.GetInt64(perishable)),
-                reader.GetValue(expiryEnum) == DBNull.Value ? null : Enum.TryParse<ExpiryType>(reader.GetString(expiryEnum), out var expiryType) ? expiryType : null,
-                reader.GetBoolean(perishable),
-                reader.GetInt64(amount),
-                reader.GetValue(locationId) == DBNull.Value ? null : reader.GetGuid(locationId));
+                reader.GetString(name)
+                );
 
             products.Add(product);
         }
@@ -82,25 +67,25 @@ from products;";
     /// <param name="product">The new product</param>
     public void AddProduct(Product product)
     {
-        var vc = new ValidationContext(product);
-        Validator.ValidateObject(product, vc, true);
-
-        var command = db.CreateCommand();
-        command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable, amount, location_id) " +
-                              "VALUES (@id, @brand, @name, @expiry, @expiryType, @perishable, @amount, @locationid);";
-        command.Parameters.AddWithValue("@id", product.Id);
-        command.Parameters.AddWithValue("@brand", product.Brand);
-        command.Parameters.AddWithValue("@name", product.Name);
-        command.Parameters.AddWithValue("@expiry", product.Expiry.HasValue ? product.Expiry : DBNull.Value);
-        command.Parameters.AddWithValue("@expiryType", product.ExpiryType.HasValue ? product.ExpiryType : DBNull.Value);
-        command.Parameters.AddWithValue("@perishable", product.Perishable);
-        command.Parameters.AddWithValue("@amount", product.Amount);
-        command.Parameters.AddWithValue("@locationid", product.LocationId.HasValue ? product.LocationId : DBNull.Value);
-
-        var resp = command.ExecuteNonQuery();
-        if (resp != 1)
-        {
-            Console.WriteLine("Failed to insert product {0} {1}", product.Brand, product.Name);
-        }
+        // var vc = new ValidationContext(product);
+        // Validator.ValidateObject(product, vc, true);
+        //
+        // var command = db.CreateCommand();
+        // command.CommandText = "INSERT INTO products(product_id, brand, name, expiry, expiry_type, perishable, amount, location_id) " +
+        //                       "VALUES (@id, @brand, @name, @expiry, @expiryType, @perishable, @amount, @locationid);";
+        // command.Parameters.AddWithValue("@id", product.Id);
+        // command.Parameters.AddWithValue("@brand", product.Brand);
+        // command.Parameters.AddWithValue("@name", product.Name);
+        // command.Parameters.AddWithValue("@expiry", product.Expiry.HasValue ? product.Expiry : DBNull.Value);
+        // command.Parameters.AddWithValue("@expiryType", product.ExpiryType.HasValue ? product.ExpiryType : DBNull.Value);
+        // command.Parameters.AddWithValue("@perishable", product.Perishable);
+        // command.Parameters.AddWithValue("@amount", product.Amount);
+        // command.Parameters.AddWithValue("@locationid", product.LocationId.HasValue ? product.LocationId : DBNull.Value);
+        //
+        // var resp = command.ExecuteNonQuery();
+        // if (resp != 1)
+        // {
+        //     Console.WriteLine("Failed to insert product {0} {1}", product.Brand, product.Name);
+        // }
     }
 }
