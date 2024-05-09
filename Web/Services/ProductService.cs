@@ -32,11 +32,7 @@ public class ProductService(SqliteConnection db) : IProductService
         var products = new List<Product>();
 
         var command = db.CreateCommand();
-        command.CommandText = @"SELECT
-products.product_id,
-products.brand,
-products.name
-from products;";
+        command.CommandText = @"SELECT products.product_id, products.brand, products.name from products;";
 
         using var reader = command.ExecuteReader();
 
