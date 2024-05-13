@@ -1,6 +1,12 @@
 # Kitchen Inventory
 A selfhosted site for managing the contents of your kitchen
 
+## Installation
+
+## Design
+
+For notes about project design / architecture see [Design Notes document](design.md)
+
 ## Development
 
 Kitchen Inventory can be developed using a few potential IDEs (Integrated development environment) depending on your preference. Due to the project's current architecture binding redirects are not much of a concern.
