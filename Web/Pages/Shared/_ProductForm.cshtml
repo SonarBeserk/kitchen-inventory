@@ -10,12 +10,12 @@
             <div class="col-md-6">
                 <!-- Text Input -->
                 <label for="brand-input" class="form-label">Brand</label>
-                <input type="text" class="form-control" id="brand-input" placeholder="Brand Name" aria-label="Name of Brand" asp-for="EditingProduct.Brand"/>
+                <input type="text" class="form-control" id="brand-input" placeholder="Brand Name" aria-label="Name of Brand" asp-for="@Model.NewProduct.Brand"/>
             </div>
             <div class="col-md-6">
                 <!-- Text Input -->
                 <label for="name-input" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name-input" placeholder="Product Name" aria-label="Name of Product" asp-for="EditingProduct.Name"/>
+                <input type="text" class="form-control" id="name-input" placeholder="Product Name" aria-label="Name of Product" asp-for="@Model.NewProduct.Name"/>
             </div>
         </div>
 
@@ -33,7 +33,7 @@
             <div class="col-md-6">
                 <!-- Number Input -->
                 <label for="amount-input" class="form-label">Amount</label>
-                <input type="number" class="form-control" id="amount-input" placeholder="0" aria-label="Amount of product stored" asp-for="EditingProduct.Amount"/>
+                <input type="number" class="form-control" id="amount-input" placeholder="0" aria-label="Amount of product stored" asp-for="@Model.NewProduct.Amount"/>
             </div>
         </div>
 
@@ -41,7 +41,7 @@
             <div class="col-md-6">
                 <!-- Checkbox Input -->
                 <label for="perishable-checkbox">Perishable</label>
-                <input type="checkbox" class="form-check-input" id="perishable-checkbox" aria-describedby="perishable-help" asp-for="EditingProduct.Perishable"/>
+                <input type="checkbox" class="form-check-input" id="perishable-checkbox" aria-describedby="perishable-help" asp-for="@Model.NewProduct.Perishable"/>
                 <div id="perishable-help" class="form-text">Perishable products expire within a short amount of time such as produce and meat.</div>
             </div>
 
