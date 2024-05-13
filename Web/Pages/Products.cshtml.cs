@@ -26,6 +26,8 @@ public class ProductsModel : PageModel
     public List<Product>? ProductResults { get; private set; }
     public Dictionary<Guid, Location>? Locations {get; private set; }
 
+    public Product? EditingProduct { get; private set; }
+
     public IActionResult OnGet()
     {
         var products = _productService.ListAllDetails();
@@ -48,5 +50,22 @@ public class ProductsModel : PageModel
         });
 
         return Partial("_ProductTableResults", this);
+    }
+
+    public IActionResult OnGetProductForm()
+    {
+        EditingProduct = new Product("", "");
+
+        if (!Request.IsHtmx())
+        {
+            return Page();
+        }
+
+        Response.Htmx(h =>
+        {
+            h.PushUrl(Request.GetEncodedUrl());
+        });
+
+        return Partial("_ProductForm", this);
     }
 }

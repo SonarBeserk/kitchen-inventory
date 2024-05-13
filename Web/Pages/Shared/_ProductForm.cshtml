@@ -1,0 +1,67 @@
+﻿@model Web.Pages.ProductsModel
+@{ ArgumentNullException.ThrowIfNull(Model);}
+
+@if (Model.EditingProduct != null)
+{
+    <form hx-post="@Url.Page("Products", "Product")"
+          hx-target="#product-form"
+          class="mb-3">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <!-- Text Input -->
+                <label for="brand-input" class="form-label">Brand</label>
+                <input type="text" class="form-control" id="brand-input" placeholder="Brand Name" aria-label="Name of Brand" asp-for="EditingProduct.Brand"/>
+            </div>
+            <div class="col-md-6">
+                <!-- Text Input -->
+                <label for="name-input" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name-input" placeholder="Product Name" aria-label="Name of Product" asp-for="EditingProduct.Name"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Dropdown Input -->
+                <label for="location-dropdown" class="form-label">Location</label>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="location-dropdown" data-bs-toggle="dropdown" aria-expanded="False">Location</button>
+                    <ul class="dropdown-menu">
+                        <!-- TODO populate menu items -->
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Number Input -->
+                <label for="amount-input" class="form-label">Amount</label>
+                <input type="number" class="form-control" id="amount-input" placeholder="0" aria-label="Amount of product stored" asp-for="EditingProduct.Amount"/>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <!-- Checkbox Input -->
+                <label for="perishable-checkbox">Perishable</label>
+                <input type="checkbox" class="form-check-input" id="perishable-checkbox" aria-describedby="perishable-help" asp-for="EditingProduct.Perishable"/>
+                <div id="perishable-help" class="form-text">Perishable products expire within a short amount of time such as produce and meat.</div>
+            </div>
+
+            <div class="col-md-6">
+                <!-- DatePicker Input -->
+                <label for="expiry-datepicker" class="form-control">Expires / Best By</label>
+                <input type="date" class="form-control" id="expiry-datepicker" placeholder="mm / dd / yyyy" aria-label="Expiration or Best By date of product"/>
+            </div>
+        </div>
+
+        <div class="control col-12">
+            <button id="submit-button" type="submit" class="btn btn-primary">
+                <span class="htmx-indicator">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="visually-hidden">Loading...</span>
+                </span>
+                Submit
+            </button>
+
+            @Html.AntiForgeryToken()
+        </div>
+    </form>
+}

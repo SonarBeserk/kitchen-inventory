@@ -5,6 +5,10 @@
 }
 
 <div>
+    <div id="product-form" hx-get="@Url.Page("Products", "ProductForm")">
+        <button class="btn btn-primary" type="button" id="form-enable">Add Product</button>
+    </div>
+
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">
