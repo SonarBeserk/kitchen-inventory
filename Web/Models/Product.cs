@@ -51,11 +51,11 @@ public class Product()
 
     [Required]
     [StringLength(100)]
-    public string Brand { get; set; } = "";
+    public string Brand { get; set; } = string.Empty;
 
     [Required]
     [StringLength(100)]
-    public string Name { get; set; } = "";
+    public string Name { get; set; } = string.Empty;
 
     public DateTime? Expiry { get; set; }
     public ExpiryType? ExpiryType { get; set; }
