@@ -76,19 +76,18 @@ public class ProductsModel : PageModel
 
     public IActionResult OnPostProduct()
     {
-        _logger.Log(LogLevel.Information, "New product being added {0} {1}", NewProduct.Brand, NewProduct.Name);
-
         if (!Request.IsHtmx())
         {
             return Page();
         }
-        
-        // TODO Add product
 
         if (!ModelState.IsValid)
         {
             return Partial("_ProductForm", this);
         }
+
+        _logger.Log(LogLevel.Information, "New product being added {0} {1}", NewProduct.Brand, NewProduct.Name);
+        _productService.AddDetails(NewProduct);
 
         // Allow inserting more products by cleaning up form and leaving it open for more entries
         ModelState.Clear();
