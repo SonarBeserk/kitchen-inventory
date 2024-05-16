@@ -5,17 +5,19 @@
 {
     <form hx-post="@Url.Page("Products", "Product")"
           hx-swap="outerHTML"
-          class="mb-3">
+          class="mb-3 needs-validation" novalidate>
         <div class="row g-3">
             <div class="col-md-6">
                 <!-- Text Input -->
-                <label for="brand-input" class="form-label">Brand</label>
-                <input type="text" class="form-control" id="brand-input" placeholder="Brand Name" aria-label="Name of Brand" asp-for="@Model.NewProduct.Brand"/>
+                <label for="brand-input" class="form-label" asp-for="@Model.NewProduct.Brand">Brand</label>
+                <input type="text" class="form-control" id="brand-input" placeholder="Brand Name" aria-label="Name of Brand" asp-for="@Model.NewProduct.Brand" />
+                <span class="text-danger" asp-validation-for="@Model.NewProduct.Brand"></span>
             </div>
             <div class="col-md-6">
                 <!-- Text Input -->
-                <label for="name-input" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name-input" placeholder="Product Name" aria-label="Name of Product" asp-for="@Model.NewProduct.Name"/>
+                <label for="name-input" class="form-label" asp-for="@Model.NewProduct.Name">Name</label>
+                <input type="text" class="form-control" id="name-input" placeholder="Product Name" aria-label="Name of Product" asp-for="@Model.NewProduct.Name" />
+                <span class="text-danger" asp-validation-for="@Model.NewProduct.Name"></span>
             </div>
         </div>
 
@@ -32,17 +34,19 @@
             </div>
             <div class="col-md-6">
                 <!-- Number Input -->
-                <label for="amount-input" class="form-label">Amount</label>
-                <input type="number" class="form-control" id="amount-input" placeholder="0" aria-label="Amount of product stored" asp-for="@Model.NewProduct.Amount"/>
+                <label for="amount-input" class="form-label" asp-for="@Model.NewProduct.Amount">Amount</label>
+                <input type="number" class="form-control" id="amount-input" placeholder="0" aria-label="Amount of product stored" asp-for="@Model.NewProduct.Amount" />
+                <span class="text-danger" asp-validation-for="@Model.NewProduct.Amount"></span>
             </div>
         </div>
 
         <div class="row g-3">
             <div class="col-md-6">
                 <!-- Checkbox Input -->
-                <input type="checkbox" class="form-check-input" id="perishable-checkbox" aria-describedby="perishable-help" asp-for="@Model.NewProduct.Perishable"/>
-                <label for="perishable-checkbox" class="form-label">Perishable</label>
+                <label for="perishable-checkbox" class="form-label" asp-for="@Model.NewProduct.Perishable">Perishable</label>
+                <input type="checkbox" class="form-check-input" id="perishable-checkbox" aria-describedby="perishable-help" asp-for="@Model.NewProduct.Perishable" />
                 <div id="perishable-help" class="form-text">Perishable products expire within a short amount of time such as produce and meat.</div>
+                <span class="text-danger" asp-validation-for="@Model.NewProduct.Perishable"></span>
             </div>
 
             <div class="col-md-6">

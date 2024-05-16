@@ -85,6 +85,11 @@ public class ProductsModel : PageModel
         
         // TODO Add product
 
+        if (!ModelState.IsValid)
+        {
+            return Partial("_ProductForm", this);
+        }
+
         // Allow inserting more products by cleaning up form and leaving it open for more entries
         ModelState.Clear();
         IsEditingProduct = true;
