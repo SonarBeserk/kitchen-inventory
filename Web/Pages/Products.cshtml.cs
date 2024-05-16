@@ -29,7 +29,7 @@ public class ProductsModel : PageModel
 
     public Product NewProduct { get; private set; }
 
-    public bool EditingProduct { get; private set; }
+    public bool IsEditingProduct { get; private set; }
 
     public IActionResult OnGet()
     {
@@ -57,7 +57,7 @@ public class ProductsModel : PageModel
 
     public IActionResult OnGetProductForm()
     {
-        EditingProduct = !EditingProduct;
+        IsEditingProduct = !IsEditingProduct;
 
         if (!Request.IsHtmx())
         {
