@@ -40,14 +40,14 @@
         <div class="row g-3">
             <div class="col-md-6">
                 <!-- Checkbox Input -->
-                <label for="perishable-checkbox">Perishable</label>
                 <input type="checkbox" class="form-check-input" id="perishable-checkbox" aria-describedby="perishable-help" asp-for="@Model.NewProduct.Perishable"/>
+                <label for="perishable-checkbox" class="form-label">Perishable</label>
                 <div id="perishable-help" class="form-text">Perishable products expire within a short amount of time such as produce and meat.</div>
             </div>
 
             <div class="col-md-6">
                 <!-- DatePicker Input -->
-                <label for="expiry-datepicker" class="form-control">Expires / Best By</label>
+                <label for="expiry-datepicker" class="form-label">Expires / Best By</label>
                 <input type="date" class="form-control" id="expiry-datepicker" placeholder="mm / dd / yyyy" aria-label="Expiration or Best By date of product"/>
             </div>
         </div>
