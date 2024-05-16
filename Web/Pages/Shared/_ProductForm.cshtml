@@ -65,3 +65,11 @@
         </div>
     </form>
 }
+else
+{
+    <button type="button"
+            class="btn btn-primary"
+            id="form-enable"
+            hx-get="@Url.Page("Products", "ProductForm")"
+            hx-swap="outerHTML">Add Product</button>
+}

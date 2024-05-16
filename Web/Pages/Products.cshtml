@@ -5,11 +5,12 @@
 }
 
 <div>
-    <div id="product-form"
-         hx-get="@Url.Page("Products", "ProductForm")"
-         hx-swap="outerHTML"
-         hx-target="#product-form">
-        <button class="btn btn-primary" type="button" id="form-enable">Add Product</button>
+    <div id="product-form">
+        <button type="button"
+            class="btn btn-primary"
+            id="form-enable"
+            hx-get="@Url.Page("Products", "ProductForm")"
+            hx-swap="outerHTML">Add Product</button>
     </div>
 
     <div class="input-group mb-3">
