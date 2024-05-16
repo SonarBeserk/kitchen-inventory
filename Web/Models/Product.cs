@@ -2,10 +2,15 @@
 
 namespace Web.Models;
 
-public class Product(
-    string brand,
-    string name)
+public class Product()
 {
+    public Product(string brand, string name)
+    : this()
+    {
+        Brand = brand;
+        Name = name;
+    }
+
     public Product(Guid id, string brand, string name) :
         this(brand, name)
     {
@@ -46,11 +51,11 @@ public class Product(
 
     [Required]
     [StringLength(100)]
-    public string Brand { get; set; } = brand;
+    public string Brand { get; set; } = "";
 
     [Required]
     [StringLength(100)]
-    public string Name { get; set; } = name;
+    public string Name { get; set; } = "";
 
     public DateTime? Expiry { get; set; }
     public ExpiryType? ExpiryType { get; set; }

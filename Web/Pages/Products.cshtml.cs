@@ -18,7 +18,7 @@ public class ProductsModel : PageModel
         _logger = logger;
         _productService = productService;
         _locationService = locationService;
-        NewProduct = new Product("", "");
+        NewProduct = new Product();
     }
 
     [BindProperty(SupportsGet = true)]
