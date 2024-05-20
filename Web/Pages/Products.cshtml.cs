@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Htmx;
+﻿using Htmx;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
