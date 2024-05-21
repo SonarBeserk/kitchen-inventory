@@ -86,7 +86,7 @@ public class ProductsModel : PageModel
         }
 
         _logger.Log(LogLevel.Information, "New product being added {0} {1}", NewProduct.Brand, NewProduct.Name);
-        _productService.AddProductDetails(NewProduct);
+        _productService.AddProductToInventory(NewProduct);
 
         // Allow inserting more products by cleaning up form and leaving it open for more entries
         ModelState.Clear();
