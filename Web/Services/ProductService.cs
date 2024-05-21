@@ -28,7 +28,7 @@ public interface IProductService
     /// </summary>
     /// <param name="productId">The id of the product to get the details of</param>
     /// <exception cref="SqliteException">Database exception occurred</exception>
-    /// <exception cref="InvalidOperationException">Multiple product results are found</exception>
+    /// <exception cref="InvalidOperationException">Multiple product results are found which should not happen</exception>
     /// <returns>The product if found, otherwise null</returns>
     public Product? GetProductDetails(Guid productId);
 
@@ -141,12 +141,12 @@ public class ProductService(SqliteConnection db) : IProductService
     /// </summary>
     /// <param name="productId">The id of the product to get the details of</param>
     /// <exception cref="SqliteException">Database exception occurred</exception>
-    /// <exception cref="InvalidOperationException">Multiple product results are found</exception>
+    /// <exception cref="InvalidOperationException">Multiple product results are found which should not happen</exception>
     /// <returns>The product if found, otherwise null</returns>
     public Product? GetProductDetails(Guid productId)
     {
         var command = db.CreateCommand();
-        command.CommandText = "SELECT products.product_id, products.brand, products.name from products WHERE products.product_id = @id;";
+        command.CommandText = "SELECT products.product_id, products.brand, products.name from products WHERE products.product_id = @id LIMIT 1;";
         command.Parameters.AddWithValue("@id", productId);
 
         using var reader = command.ExecuteReader();
