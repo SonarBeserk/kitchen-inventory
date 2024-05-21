@@ -37,6 +37,12 @@ public class ProductService(SqliteConnection db) : IProductService
 
         using var reader = command.ExecuteReader();
 
+        // Handle when no products are returned
+        if (!reader.HasRows)
+        {
+            return products;
+        }
+
         // SqlDataReader is based on ordinal values, using the string index does this anyway,
         // but we can use the helper functions if we grab the ordinal values directly.
         var productId = reader.GetOrdinal("product_id");
