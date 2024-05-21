@@ -18,7 +18,7 @@ public interface IProductService
     /// <summary>
     /// Lists all products currently tracked by the inventory including locations
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The list of track products with all details fetched</returns>
     public List<Product> ListInventoriedProducts();
 
     /// <summary>
@@ -77,6 +77,10 @@ public class ProductService(SqliteConnection db) : IProductService
         return products;
     }
 
+    /// <summary>
+    /// Lists all products currently tracked by the inventory including locations
+    /// </summary>
+    /// <returns>The list of track products with all details fetched</returns>
     public List<Product> ListInventoriedProducts()
     {
         var products = new List<Product>();
