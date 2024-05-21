@@ -25,7 +25,7 @@ public interface IProductService
     /// Adds a new product to the store
     /// </summary>
     /// <param name="product">The new product</param>
-    public void AddDetails(Product product);
+    public void AddProductDetails(Product product);
 }
 
 public class ProductService(SqliteConnection db) : IProductService
@@ -122,7 +122,7 @@ public class ProductService(SqliteConnection db) : IProductService
     /// Adds a new product to the store
     /// </summary>
     /// <param name="product">The new product</param>
-    public void AddDetails(Product product)
+    public void AddProductDetails(Product product)
     {
         var vc = new ValidationContext(product);
         Validator.ValidateObject(product, vc, true);
