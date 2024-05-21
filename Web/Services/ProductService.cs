@@ -12,12 +12,14 @@ public interface IProductService
     /// <summary>
     /// Lists details of all tracked products
     /// </summary>
+    /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <returns>All products being stored</returns>
     public List<Product> ListAllDetails();
 
     /// <summary>
     /// Lists all products currently tracked by the inventory including locations
     /// </summary>
+    /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <returns>The list of track products with all details fetched</returns>
     public List<Product> ListInventoriedProducts();
 
@@ -25,12 +27,15 @@ public interface IProductService
     /// Gets the product details for a specific product
     /// </summary>
     /// <param name="productId">The id of the product to get the details of</param>
+    /// <exception cref="SqliteException">Database exception occurred</exception>
+    /// <exception cref="InvalidOperationException">Multiple product results are found</exception>
     /// <returns>The product if found, otherwise null</returns>
     public Product? GetProductDetails(Guid productId);
 
     /// <summary>
-    /// Adds a new product to the store
+    /// Adds a new product to the database
     /// </summary>
+    /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <param name="product">The new product</param>
     public void AddProductDetails(Product product);
 }
@@ -38,8 +43,9 @@ public interface IProductService
 public class ProductService(SqliteConnection db) : IProductService
 {
     /// <summary>
-    /// Lists all tracked products
+    /// Lists details of all tracked products
     /// </summary>
+    /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <returns>All products being stored</returns>
     public List<Product> ListAllDetails()
     {
@@ -80,6 +86,7 @@ public class ProductService(SqliteConnection db) : IProductService
     /// <summary>
     /// Lists all products currently tracked by the inventory including locations
     /// </summary>
+    /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <returns>The list of track products with all details fetched</returns>
     public List<Product> ListInventoriedProducts()
     {
@@ -133,6 +140,8 @@ public class ProductService(SqliteConnection db) : IProductService
     /// Gets the product details for a specific product
     /// </summary>
     /// <param name="productId">The id of the product to get the details of</param>
+    /// <exception cref="SqliteException">Database exception occurred</exception>
+    /// <exception cref="InvalidOperationException">Multiple product results are found</exception>
     /// <returns>The product if found, otherwise null</returns>
     public Product? GetProductDetails(Guid productId)
     {
@@ -173,8 +182,9 @@ public class ProductService(SqliteConnection db) : IProductService
     }
 
     /// <summary>
-    /// Adds a new product to the store
+    /// Adds a new product to the database
     /// </summary>
+    /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <param name="product">The new product</param>
     public void AddProductDetails(Product product)
     {
