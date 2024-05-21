@@ -101,7 +101,7 @@ public class ProductService(SqliteConnection db) : IProductService
 
         var command = db.CreateCommand();
         command.CommandText = @"
-            SELECT inventory.product_id, inventory.expiry, inventory.expiry_type, inventory.perishable, inventory.amount, inventory.location_id
+            SELECT inventory.product_id, brand, name, inventory.expiry, inventory.expiry_type, inventory.perishable, inventory.amount, inventory.location_id
             FROM inventory
             INNER JOIN main.products p on p.product_id = inventory.product_id;";
 
@@ -130,11 +130,11 @@ public class ProductService(SqliteConnection db) : IProductService
                 reader.GetGuid(productId),
                 reader.GetString(brand),
                 reader.GetString(name),
-                reader.GetGuid(locationId),
+                reader.IsDBNull(locationId) ? null : reader.GetGuid(locationId),
                 reader.GetBoolean(perishable),
                 reader.GetInt64(amount),
-                reader.GetDateTime(expiry),
-                (ExpiryType?)Enum.ToObject(typeof(ExpiryType), reader.GetInt64(expiryType))
+                reader.IsDBNull(expiry) ? null : reader.GetDateTime(expiry),
+                reader.IsDBNull(expiryType) ? null : (ExpiryType?)Enum.ToObject(typeof(ExpiryType), reader.GetInt64(expiryType))
                 );
             products.Add(product);
         }
