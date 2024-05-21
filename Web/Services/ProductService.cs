@@ -78,7 +78,7 @@ public class ProductService(SqliteConnection db) : IProductService
         command.CommandText = @"
             SELECT inventory.product_id, inventory.expiry, inventory.expiry_type, inventory.perishable, inventory.amount, inventory.location_id
             from inventory
-            INNER JOIN main.products p on p.product_id = inventory.product_id";
+            INNER JOIN main.products p on p.product_id = inventory.product_id;";
 
         using var reader = command.ExecuteReader();
 
