@@ -52,7 +52,7 @@ public class ProductService(SqliteConnection db) : IProductService
         var products = new List<Product>();
 
         var command = db.CreateCommand();
-        command.CommandText = @"SELECT products.product_id, products.brand, products.name from products;";
+        command.CommandText = @"SELECT products.product_id, products.brand, products.name FROM products;";
 
         using var reader = command.ExecuteReader();
 
@@ -95,7 +95,7 @@ public class ProductService(SqliteConnection db) : IProductService
         var command = db.CreateCommand();
         command.CommandText = @"
             SELECT inventory.product_id, inventory.expiry, inventory.expiry_type, inventory.perishable, inventory.amount, inventory.location_id
-            from inventory
+            FROM inventory
             INNER JOIN main.products p on p.product_id = inventory.product_id;";
 
         using var reader = command.ExecuteReader();
@@ -146,7 +146,7 @@ public class ProductService(SqliteConnection db) : IProductService
     public Product? GetProductDetails(Guid productId)
     {
         var command = db.CreateCommand();
-        command.CommandText = "SELECT products.product_id, products.brand, products.name from products WHERE products.product_id = @id LIMIT 1;";
+        command.CommandText = "SELECT products.product_id, products.brand, products.name FROM products WHERE products.product_id = @id LIMIT 1;";
         command.Parameters.AddWithValue("@id", productId);
 
         using var reader = command.ExecuteReader();
