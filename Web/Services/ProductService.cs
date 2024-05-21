@@ -22,6 +22,13 @@ public interface IProductService
     public List<Product> ListInventoriedProducts();
 
     /// <summary>
+    /// Gets the product details for a specific product
+    /// </summary>
+    /// <param name="productId">The id of the product to get the details of</param>
+    /// <returns>The product if found, otherwise null</returns>
+    public Product? GetProductDetails(Guid productId);
+
+    /// <summary>
     /// Adds a new product to the store
     /// </summary>
     /// <param name="product">The new product</param>
@@ -116,6 +123,49 @@ public class ProductService(SqliteConnection db) : IProductService
         reader.Close();
 
         return products;
+    }
+
+    /// <summary>
+    /// Gets the product details for a specific product
+    /// </summary>
+    /// <param name="productId">The id of the product to get the details of</param>
+    /// <returns>The product if found, otherwise null</returns>
+    public Product? GetProductDetails(Guid productId)
+    {
+        var command = db.CreateCommand();
+        command.CommandText = "SELECT products.product_id, products.brand, products.name from products WHERE products.product_id = @id;";
+        command.Parameters.AddWithValue("@id", productId);
+
+        using var reader = command.ExecuteReader();
+
+        // Handle when no products are returned
+        if (!reader.HasRows)
+        {
+            return null;
+        }
+        
+        // SqlDataReader is based on ordinal values, using the string index does this anyway,
+        // but we can use the helper functions if we grab the ordinal values directly.
+        var productIdOrd = reader.GetOrdinal("product_id");
+        var brandOrd = reader.GetOrdinal("brand");
+        var nameOrd = reader.GetOrdinal("name");
+
+        reader.Read();
+        var product = new Product(
+            reader.GetGuid(productIdOrd),
+            reader.GetString(brandOrd),
+            reader.GetString(nameOrd)
+        );
+
+        if (reader.Read())
+        {
+            reader.Close();
+            throw new InvalidOperationException("Multiple products found");
+        }
+        
+        reader.Close();
+
+        return product;
     }
 
     /// <summary>
