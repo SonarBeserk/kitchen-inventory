@@ -38,6 +38,13 @@ public interface IProductService
     /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <param name="product">The new product</param>
     public void AddProductDetails(Product product);
+
+    /// <summary>
+    /// Adds a new product to the store including details such as location, expiry, and amount
+    /// </summary>
+    /// <exception cref="SqliteException">Database exception occurred</exception>
+    /// <param name="product">The new product to add to the inventory</param>
+    public void AddProductToInventory(Product product);
 }
 
 public class ProductService(SqliteConnection db) : IProductService
@@ -202,6 +209,69 @@ public class ProductService(SqliteConnection db) : IProductService
         if (resp != 1)
         {
             Console.WriteLine("Failed to insert product {0} {1}", product.Brand, product.Name);
+        }
+    }
+
+    /// <summary>
+    /// Adds a new product to the store including details such as location, expiry, and amount
+    /// </summary>
+    /// <exception cref="SqliteException">Database exception occurred</exception>
+    /// <param name="product">The new product to add to the inventory</param>
+    public void AddProductToInventory(Product product)
+    {
+        var vc = new ValidationContext(product);
+        Validator.ValidateObject(product, vc, true);
+        
+        // TODO: Check for an existing product by brand / name to prevent some duplication
+        var command = db.CreateCommand();
+        command.CommandText = "SELECT EXISTS(SELECT 1 FROM products WHERE products.product_id = @id)";
+        command.Parameters.AddWithValue("@id", product.Id);
+
+        var selectResp = command.ExecuteScalar();
+        if (selectResp is not long i)
+        {
+            throw new InvalidOperationException("Checking for existing product did not return an int");
+        }
+        
+        command.Dispose(); // Reuse the command variable but release the old resources
+
+        int resp;
+        
+        // Product details need to be saved
+        if (i == 0)
+        {
+            command = db.CreateCommand();
+            command.CommandText = "INSERT INTO products(product_id, brand, name) " +
+                                  "VALUES (@id, @brand, @name);";
+            command.Parameters.AddWithValue("@id", product.Id);
+            command.Parameters.AddWithValue("@brand", product.Brand);
+            command.Parameters.AddWithValue("@name", product.Name);
+            
+            resp = command.ExecuteNonQuery();
+            if (resp != 1)
+            {
+                Console.WriteLine("Failed to insert product {0} {1}", product.Brand, product.Name);
+            }
+
+            command.Dispose(); // Reuse the command variable but release the old resources
+        }
+
+        command = db.CreateCommand();
+        command.CommandText =
+            "INSERT INTO inventory(inventory_id, product_id, expiry, expiry_type, perishable, amount, location_id) " +
+            "VALUES (@inventoryId, @productId, @expiry, @expiryType, @perishable, @amount, @locationId)";
+        command.Parameters.AddWithValue("@inventoryId", Guid.NewGuid()); // Inventory ids are just primary keys, so we can generate them
+        command.Parameters.AddWithValue("@productId", product.Id);
+        command.Parameters.AddWithValue("@expiry", product.Expiry.HasValue ? product.Expiry.Value : DBNull.Value);
+        command.Parameters.AddWithValue("@expiryType", product.ExpiryType.HasValue ? product.ExpiryType.Value : DBNull.Value);
+        command.Parameters.AddWithValue("@perishable", product.Perishable);
+        command.Parameters.AddWithValue("@amount", product.Amount);
+        command.Parameters.AddWithValue("@locationId", product.LocationId.HasValue ? product.LocationId.Value : DBNull.Value);
+
+        resp = command.ExecuteNonQuery();
+        if (resp != 1)
+        {
+            Console.WriteLine("Failed to add product to inventory {0} {1}", product.Brand, product.Name);
         }
     }
 }
