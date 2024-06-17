@@ -25,7 +25,7 @@ public class ProductsModel : PageModel
     public string? Query { get; set; }
 
     public List<Product>? ProductResults { get; private set; }
-    public Dictionary<Guid, Location>? Locations {get; private set; }
+    public Dictionary<Guid, Location>? Locations { get; private set; }
 
     [BindProperty]
     public Product NewProduct { get; set; }

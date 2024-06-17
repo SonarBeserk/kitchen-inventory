@@ -29,7 +29,7 @@ public class LocationsModel : PageModel
         LocationResults = string.IsNullOrEmpty(Query) ?
             locations :
             locations.Where(l =>
-                l.Name.Contains(Query, StringComparison.OrdinalIgnoreCase) || 
+                l.Name.Contains(Query, StringComparison.OrdinalIgnoreCase) ||
                 l.Description.Contains(Query, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 

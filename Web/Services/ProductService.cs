@@ -163,7 +163,7 @@ public class ProductService(SqliteConnection db) : IProductService
         {
             return null;
         }
-        
+
         // SqlDataReader is based on ordinal values, using the string index does this anyway,
         // but we can use the helper functions if we grab the ordinal values directly.
         var productIdOrd = reader.GetOrdinal("product_id");
@@ -182,7 +182,7 @@ public class ProductService(SqliteConnection db) : IProductService
             reader.Close();
             throw new InvalidOperationException("Multiple products found");
         }
-        
+
         reader.Close();
 
         return product;
@@ -197,14 +197,14 @@ public class ProductService(SqliteConnection db) : IProductService
     {
         var vc = new ValidationContext(product);
         Validator.ValidateObject(product, vc, true);
-        
+
         var command = db.CreateCommand();
         command.CommandText = "INSERT INTO products(product_id, brand, name) " +
                               "VALUES (@id, @brand, @name);";
         command.Parameters.AddWithValue("@id", product.Id);
         command.Parameters.AddWithValue("@brand", product.Brand);
         command.Parameters.AddWithValue("@name", product.Name);
-        
+
         var resp = command.ExecuteNonQuery();
         if (resp != 1)
         {
@@ -221,7 +221,7 @@ public class ProductService(SqliteConnection db) : IProductService
     {
         var vc = new ValidationContext(product);
         Validator.ValidateObject(product, vc, true);
-        
+
         // TODO: Check for an existing product by brand / name to prevent some duplication
         var command = db.CreateCommand();
         command.CommandText = "SELECT EXISTS(SELECT 1 FROM products WHERE products.product_id = @id)";
@@ -232,11 +232,11 @@ public class ProductService(SqliteConnection db) : IProductService
         {
             throw new InvalidOperationException("Checking for existing product did not return an int");
         }
-        
+
         command.Dispose(); // Reuse the command variable but release the old resources
 
         int resp;
-        
+
         // Product details need to be saved
         if (i == 0)
         {
@@ -246,7 +246,7 @@ public class ProductService(SqliteConnection db) : IProductService
             command.Parameters.AddWithValue("@id", product.Id);
             command.Parameters.AddWithValue("@brand", product.Brand);
             command.Parameters.AddWithValue("@name", product.Name);
-            
+
             resp = command.ExecuteNonQuery();
             if (resp != 1)
             {

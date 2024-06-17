@@ -96,7 +96,7 @@ public static class SqlService
         {
             appliedVersion++;
 
-            if(!filePaths.TryGetValue(appliedVersion, out var migrationPath))
+            if (!filePaths.TryGetValue(appliedVersion, out var migrationPath))
             {
                 throw new InvalidOperationException($"Migration could not be found for migration {appliedVersion}");
             }
@@ -113,7 +113,7 @@ public static class SqlService
 
             // Update user version so we can tell the migration completed
             SetUserVersion(conn, appliedVersion);
-            
+
             // Remove the migration from the dictionary to signal it no longer needs to run
             filePaths.Remove(appliedVersion);
         }

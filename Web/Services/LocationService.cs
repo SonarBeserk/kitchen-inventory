@@ -33,7 +33,7 @@ public class LocationService(SqliteConnection db) : ILocationService
                 reader.GetGuid(locationId),
                 reader.GetString(name),
                 reader.GetString(description));
-            
+
             locations.Add(location);
         }
         reader.Close();
