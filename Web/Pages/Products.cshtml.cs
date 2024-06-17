@@ -9,11 +9,11 @@ namespace Web.Pages;
 
 public class ProductsModel : PageModel
 {
-    private readonly ILogger<PrivacyModel> _logger;
+    private readonly ILogger<ProductsModel> _logger;
     private readonly IProductService _productService;
     private readonly ILocationService _locationService;
 
-    public ProductsModel(ILogger<PrivacyModel> logger, IProductService productService, ILocationService locationService)
+    public ProductsModel(ILogger<ProductsModel> logger, IProductService productService, ILocationService locationService)
     {
         _logger = logger;
         _productService = productService;
