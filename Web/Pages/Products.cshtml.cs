@@ -34,7 +34,7 @@ public class ProductsModel : PageModel
 
     public IActionResult OnGet()
     {
-        var products = _productService.ListAllDetails();
+        var products = _productService.ListInventoriedProducts();
         Locations = _locationService.ListLocations().ToDictionary(l => l.Id, l => l);
         ProductResults = string.IsNullOrEmpty(Query)
             ? products
