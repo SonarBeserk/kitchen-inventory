@@ -14,7 +14,8 @@
         <input type="text"
                asp-for="Query"
                id="query"
-               hx-get="@Url.Page("Locations")"
+               hx-get
+               hx-page="Locations"
                hx-target="#results"
                hx-trigger="keyup changed delay:250ms"
                autocomplete="off"

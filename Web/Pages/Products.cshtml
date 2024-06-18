@@ -18,7 +18,8 @@
         <input type="text"
                asp-for="Query"
                id="query"
-               hx-get="@Url.Page("Products")"
+               hx-get
+               hx-page="Products"
                hx-target="#results"
                hx-trigger="keyup changed delay:250ms"
                autocomplete="off"

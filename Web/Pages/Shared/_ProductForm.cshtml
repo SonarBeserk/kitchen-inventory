@@ -3,7 +3,9 @@
 
 @if (Model is { IsEditingProduct: true, NewProduct: not null })
 {
-    <form hx-post="@Url.Page("Products", "Product")"
+    <form hx-post
+          hx-page="Products"
+          hx-page-handler="Product"
           hx-swap="outerHTML"
           class="mb-3 needs-validation" novalidate>
         <div class="row g-3">
@@ -74,6 +76,8 @@ else
     <button type="button"
             class="btn btn-primary"
             id="form-enable"
-            hx-get="@Url.Page("Products", "ProductForm")"
+            hx-get
+            hx-page="Products"
+            hx-page-handler="ProductForm"
             hx-swap="outerHTML">Add Product</button>
 }
