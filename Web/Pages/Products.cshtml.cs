@@ -65,11 +65,6 @@ public class ProductsModel : PageModel
             return Page();
         }
 
-        Response.Htmx(h =>
-        {
-            h.PushUrl(Request.GetEncodedUrl());
-        });
-
         return Partial("_ProductForm", this);
     }
 
