@@ -54,8 +54,8 @@
 
             <div class="col-md-6">
                 <!-- DatePicker Input -->
-                <label for="expiry-datepicker" class="form-label">Expires / Best By</label>
-                <input type="date" class="form-control" id="expiry-datepicker" placeholder="mm / dd / yyyy" aria-label="Expiration or Best By date of product"/>
+                <label for="expiry-datepicker" class="form-label" asp-for="NewProduct.Expiry">Expires / Best By</label>
+                <input type="date" class="form-control" id="expiry-datepicker" placeholder="mm / dd / yyyy" aria-label="Expiration or Best By date of product" asp-for="NewProduct.Expiry"/>
             </div>
         </div>
 
