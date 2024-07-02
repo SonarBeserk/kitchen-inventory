@@ -38,7 +38,7 @@
             <div class="col-md-6">
                 <!-- Number Input -->
                 <label for="amount-input" class="form-label" asp-for="@Model.NewProduct.Amount">Amount</label>
-                <input type="number" class="form-control" id="amount-input" placeholder="0" aria-label="Amount of product stored" asp-for="@Model.NewProduct.Amount" />
+                <input type="number" class="form-control" id="amount-input" value="1" aria-label="Amount of product stored" asp-for="@Model.NewProduct.Amount" />
                 <span class="text-danger" asp-validation-for="@Model.NewProduct.Amount"></span>
             </div>
         </div>
