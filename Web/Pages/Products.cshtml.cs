@@ -81,7 +81,7 @@ public class ProductsModel : PageModel
         return Partial("_ProductForm", this);
     }
 
-    public IActionResult OnPostProduct()
+    public IActionResult OnPostProduct(bool keepEditing)
     {
         if (!Request.IsHtmx())
         {
@@ -96,10 +96,15 @@ public class ProductsModel : PageModel
         _logger.Log(LogLevel.Information, "New product being added {0} {1}", NewProduct.Brand, NewProduct.Name);
         _productService.AddProductToInventory(NewProduct);
 
-        // Allow inserting more products by cleaning up form and leaving it open for more entries
-        ModelState.Clear();
-        IsEditingProduct = true;
+        ModelState.Clear(); // Allow inserting more products by cleaning up form and leaving it open for more entries
         NewProduct = new Product();
+
+        _logger.Log(LogLevel.Information, "Continuing editing");
+        // Keep form open if requested
+        if (keepEditing)
+        {
+            IsEditingProduct = true;
+        }
 
         return Partial("_ProductForm", this);
     }
