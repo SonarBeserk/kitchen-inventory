@@ -17,7 +17,6 @@
                         style="color:red; font-size: 1.1rem"
                         class="bi bi-check2"
                         alt="red checkmark"
-                        data-bs-toggle="tooltip"
                         title="Perishable"></i>
                 }
                 else
@@ -25,7 +24,6 @@
                     <i style="color:green; font-size: 1.1rem"
                        class="bi bi-x"
                        alt="green x"
-                       data-bs-toggle="tooltip"
                        title="Not Perishable"></i>
                 }
             </td>
@@ -38,10 +36,3 @@ else
         <td colspan="6" class="text-center">No Products Found</td>
     </tr>
 }
-
-<script>
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl)
-})
-</script>
