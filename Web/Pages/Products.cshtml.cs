@@ -21,12 +21,25 @@ public class ProductsModel : PageModel
         NewProduct = new Product();
     }
 
+    /// <summary>
+    /// Search string for product table (ex: Brand, Product Name)
+    /// </summary>
     [BindProperty(SupportsGet = true)]
     public string? Query { get; set; }
 
+    /// <summary>
+    /// The list of products from the database
+    /// </summary>
     public List<Product>? ProductResults { get; private set; }
+
+    /// <summary>
+    /// The list of locations from the database
+    /// </summary>
     public Dictionary<Guid, Location>? Locations { get; private set; }
 
+    /// <summary>
+    /// The new product created when the product form is posted
+    /// </summary>
     [BindProperty]
     public Product NewProduct { get; set; }
 
