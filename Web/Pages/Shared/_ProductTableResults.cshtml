@@ -11,7 +11,24 @@
             <td>@product.Amount</td>
             <td>@(product.LocationId != null && Model.Locations != null && Model.Locations.TryGetValue(product.LocationId.Value, out var location) ? location.Name : "Unknown") </td>
             <td>@(product is { Expiry: not null, ExpiryType: not null } ? product.ExpiryType + " " + product.Expiry.Value : "N/A")</td>
-            <td>@product.Perishable</td>
+            <td>@if (product.Perishable)
+                {
+                    <i
+                        style="color:red; font-size: 1.1rem"
+                        class="bi bi-check2"
+                        alt="red checkmark"
+                        data-bs-toggle="tooltip"
+                        title="Perishable"></i>
+                }
+                else
+                {
+                    <i style="color:green; font-size: 1.1rem"
+                       class="bi bi-x"
+                       alt="green x"
+                       data-bs-toggle="tooltip"
+                       title="Not Perishable"></i>
+                }
+            </td>
         </tr>
     }
 }
@@ -21,3 +38,10 @@ else
         <td colspan="6" class="text-center">No Products Found</td>
     </tr>
 }
+
+<script>
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+</script>
