@@ -1,4 +1,5 @@
-﻿@model Web.Pages.ProductsModel
+﻿@using Web.Models
+@model Web.Pages.ProductsModel
 @{ ArgumentNullException.ThrowIfNull(Model);}
 
 @if (Model is { IsEditingProduct: true })
@@ -53,9 +54,22 @@
             </div>
 
             <div class="col-md-6">
-                <!-- DatePicker Input -->
-                <label for="expiry-datepicker" class="form-label" asp-for="NewProduct.Expiry">Expires / Best By</label>
-                <input type="date" class="form-control" id="expiry-datepicker" placeholder="mm / dd / yyyy" aria-label="Expiration or Best By date of product" asp-for="NewProduct.Expiry"/>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="noneRadio" asp-for="@Model.NewProduct.ExpiryType" value="" checked>
+                    <label class="form-check-label" for="noneRadio" asp-for="@Model.NewProduct.ExpiryType">None</label>
+                </div>
+                @foreach (var expiryType in Enum.GetValues(typeof(ExpiryType)))
+                {
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="@expiryType" value="@expiryType" asp-for="@Model.NewProduct.ExpiryType">
+                        <label class="form-check-label" for="@expiryType" asp-for="@Model.NewProduct.ExpiryType">@expiryType</label>
+                    </div>
+                }
+                <div class="col-md-6">
+                    <!-- DatePicker Input -->
+                    <label for="expiry-datepicker" class="form-label" asp-for="NewProduct.Expiry">Expires</label>
+                    <input type="date" class="form-control" id="expiry-datepicker" placeholder="mm / dd / yyyy" aria-label="Expiration or Best By date of product" asp-for="NewProduct.Expiry"/>
+                </div>
             </div>
         </div>
 
