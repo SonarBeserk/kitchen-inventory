@@ -1,7 +1,7 @@
 ﻿@model Web.Pages.ProductsModel
 @{ ArgumentNullException.ThrowIfNull(Model);}
 
-@if (Model is { IsEditingProduct: true, NewProduct: not null })
+@if (Model is { IsEditingProduct: true })
 {
     <form hx-post
           hx-page="Products"
