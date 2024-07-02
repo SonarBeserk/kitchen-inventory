@@ -47,8 +47,8 @@
         <div class="row g-3 pt-3">
             <div class="col-md-6">
                 <!-- Checkbox Input -->
-                <label for="perishable-checkbox" class="form-label" asp-for="@Model.NewProduct.Perishable">Perishable</label>
                 <input type="checkbox" class="form-check-input" id="perishable-checkbox" aria-describedby="perishable-help" asp-for="@Model.NewProduct.Perishable" />
+                <label for="perishable-checkbox" class="form-label ps-1" asp-for="@Model.NewProduct.Perishable">Perishable</label>
                 <div id="perishable-help" class="form-text">Perishable products expire within a short amount of time such as produce and meat.</div>
                 <span class="text-danger" asp-validation-for="@Model.NewProduct.Perishable"></span>
             </div>
