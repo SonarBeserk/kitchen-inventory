@@ -41,7 +41,7 @@ public class ProductsModel : PageModel
         _productService = productService;
         _locationService = locationService;
         _accountService = accountService;
-        NewProduct = new Product();
+        CurrentProduct = new Product();
 
         CanEdit = _accountService.IsAdmin();
     }
@@ -63,10 +63,10 @@ public class ProductsModel : PageModel
     public Dictionary<Guid, Location>? Locations { get; private set; }
 
     /// <summary>
-    /// The new product created when the product form is posted
+    /// The product being edited in the product form
     /// </summary>
     [BindProperty]
-    public Product NewProduct { get; set; }
+    public Product CurrentProduct { get; set; }
 
     public bool IsEditingProduct { get; private set; }
 
@@ -120,11 +120,11 @@ public class ProductsModel : PageModel
             return Partial("_ProductForm", this);
         }
 
-        _logger.Log(LogLevel.Information, "New product being added {0} {1}", NewProduct.Brand, NewProduct.Name);
-        _productService.AddProductToInventory(NewProduct);
+        _logger.Log(LogLevel.Information, "New product being added {0} {1}", CurrentProduct.Brand, CurrentProduct.Name);
+        _productService.AddProductToInventory(CurrentProduct);
 
         ModelState.Clear(); // Allow inserting more products by cleaning up form and leaving it open for more entries
-        NewProduct = new Product();
+        CurrentProduct = new Product();
 
         _logger.Log(LogLevel.Information, "Continuing editing");
         // Keep form open if requested

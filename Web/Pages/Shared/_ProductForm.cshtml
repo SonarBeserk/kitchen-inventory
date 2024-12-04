@@ -13,15 +13,15 @@
         <div class="row g-3 pt-1">
             <div class="col-md-6">
                 <!-- Text Input -->
-                <label for="brand-input" class="form-label" asp-for="@Model.NewProduct.Brand">Brand</label>
-                <input type="text" class="form-control" id="brand-input" placeholder="Brand Name" aria-label="Name of Brand" asp-for="@Model.NewProduct.Brand" />
-                <span class="text-danger" asp-validation-for="@Model.NewProduct.Brand"></span>
+                <label for="brand-input" class="form-label" asp-for="@Model.CurrentProduct.Brand">Brand</label>
+                <input type="text" class="form-control" id="brand-input" placeholder="Brand Name" aria-label="Name of Brand" asp-for="@Model.CurrentProduct.Brand" />
+                <span class="text-danger" asp-validation-for="@Model.CurrentProduct.Brand"></span>
             </div>
             <div class="col-md-6">
                 <!-- Text Input -->
-                <label for="name-input" class="form-label" asp-for="@Model.NewProduct.Name">Name</label>
-                <input type="text" class="form-control" id="name-input" placeholder="Product Name" aria-label="Name of Product" asp-for="@Model.NewProduct.Name" />
-                <span class="text-danger" asp-validation-for="@Model.NewProduct.Name"></span>
+                <label for="name-input" class="form-label" asp-for="@Model.CurrentProduct.Name">Name</label>
+                <input type="text" class="form-control" id="name-input" placeholder="Product Name" aria-label="Name of Product" asp-for="@Model.CurrentProduct.Name" />
+                <span class="text-danger" asp-validation-for="@Model.CurrentProduct.Name"></span>
             </div>
         </div>
 
@@ -38,37 +38,37 @@
             </div>
             <div class="col-md-6">
                 <!-- Number Input -->
-                <label for="amount-input" class="form-label" asp-for="@Model.NewProduct.Amount">Amount</label>
-                <input type="number" class="form-control" id="amount-input" value="1" aria-label="Amount of product stored" asp-for="@Model.NewProduct.Amount" />
-                <span class="text-danger" asp-validation-for="@Model.NewProduct.Amount"></span>
+                <label for="amount-input" class="form-label" asp-for="@Model.CurrentProduct.Amount">Amount</label>
+                <input type="number" class="form-control" id="amount-input" value="1" aria-label="Amount of product stored" asp-for="@Model.CurrentProduct.Amount" />
+                <span class="text-danger" asp-validation-for="@Model.CurrentProduct.Amount"></span>
             </div>
         </div>
 
         <div class="row g-3 pt-3">
             <div class="col-md-6">
                 <!-- Checkbox Input -->
-                <input type="checkbox" class="form-check-input" id="perishable-checkbox" aria-describedby="perishable-help" asp-for="@Model.NewProduct.Perishable" />
-                <label for="perishable-checkbox" class="form-label ps-1" asp-for="@Model.NewProduct.Perishable">Perishable</label>
+                <input type="checkbox" class="form-check-input" id="perishable-checkbox" aria-describedby="perishable-help" asp-for="@Model.CurrentProduct.Perishable" />
+                <label for="perishable-checkbox" class="form-label ps-1" asp-for="@Model.CurrentProduct.Perishable">Perishable</label>
                 <div id="perishable-help" class="form-text">Perishable products expire within a short amount of time such as produce and meat.</div>
-                <span class="text-danger" asp-validation-for="@Model.NewProduct.Perishable"></span>
+                <span class="text-danger" asp-validation-for="@Model.CurrentProduct.Perishable"></span>
             </div>
 
             <div class="col-md-6">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="noneRadio" asp-for="@Model.NewProduct.ExpiryType" value="" checked>
-                    <label class="form-check-label" for="noneRadio" asp-for="@Model.NewProduct.ExpiryType">None</label>
+                    <input class="form-check-input" type="radio" id="noneRadio" asp-for="@Model.CurrentProduct.ExpiryType" value="" checked>
+                    <label class="form-check-label" for="noneRadio" asp-for="@Model.CurrentProduct.ExpiryType">None</label>
                 </div>
                 @foreach (var expiryType in Enum.GetValues(typeof(ExpiryType)))
                 {
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="@expiryType" value="@expiryType" asp-for="@Model.NewProduct.ExpiryType">
-                        <label class="form-check-label" for="@expiryType" asp-for="@Model.NewProduct.ExpiryType">@expiryType</label>
+                        <input class="form-check-input" type="radio" id="@expiryType" value="@expiryType" asp-for="@Model.CurrentProduct.ExpiryType">
+                        <label class="form-check-label" for="@expiryType" asp-for="@Model.CurrentProduct.ExpiryType">@expiryType</label>
                     </div>
                 }
                 <div class="col-md-6">
                     <!-- DatePicker Input -->
-                    <label for="expiry-datepicker" class="form-label" asp-for="NewProduct.Expiry">Expires</label>
-                    <input type="date" class="form-control" id="expiry-datepicker" placeholder="mm / dd / yyyy" aria-label="Expiration or Best By date of product" asp-for="NewProduct.Expiry"/>
+                    <label for="expiry-datepicker" class="form-label" asp-for="CurrentProduct.Expiry">Expires</label>
+                    <input type="date" class="form-control" id="expiry-datepicker" placeholder="mm / dd / yyyy" aria-label="Expiration or Best By date of product" asp-for="CurrentProduct.Expiry"/>
                 </div>
             </div>
         </div>
