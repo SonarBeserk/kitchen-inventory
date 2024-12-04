@@ -27,6 +27,26 @@
                        title="Not Perishable"></i>
                 }
             </td>
+            <td>
+                @if (Model.CanEdit)
+                {
+                    <button type="button" class="btn btn-outline-primary">
+                        <i style="font-size: 1.1rem"
+                           class="bi bi-pencil-fill"
+                           alt="gray pencil"
+                           title="Edit"></i>
+                        Edit
+                    </button>
+
+                    <button type="button" class="btn btn-outline-danger">
+                        <i style="color:red; font-size: 1.1rem"
+                           class="bi bi-x"
+                           alt="red x"
+                           title="Delete"></i>
+                        Delete
+                    </button>
+                }
+            </td>
         </tr>
     }
 }
