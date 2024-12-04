@@ -96,9 +96,22 @@ public class ProductsModel : PageModel
         return Partial("_ProductTableResults", this);
     }
 
-    public IActionResult OnGetProductForm()
+    public IActionResult OnGetProductForm(Guid productId)
     {
         IsEditingProduct = !IsEditingProduct;
+
+        if (productId != Guid.Empty)
+        {
+            _logger.Log(LogLevel.Information, "Product id {0}", productId);
+            try
+            {
+                CurrentProduct = _productService.GetProductDetails(productId) ?? new Product();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Failed to get product details {0}", e.Message);
+            }
+        }
 
         if (!Request.IsHtmx())
         {

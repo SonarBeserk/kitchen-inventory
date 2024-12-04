@@ -30,7 +30,12 @@
             <td>
                 @if (Model.CanEdit)
                 {
-                    <button type="button" class="btn btn-outline-primary">
+                    <button type="button" class="btn btn-outline-primary"
+                            hx-get
+                            hx-page="Products"
+                            hx-page-handler="ProductForm"
+                            hx-target="#product-form"
+                            hx-route-productId="@product.Id">
                         <i style="font-size: 1.1rem"
                            class="bi bi-pencil-fill"
                            alt="gray pencil"
