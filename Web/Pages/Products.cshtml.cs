@@ -102,14 +102,14 @@ public class ProductsModel : PageModel
 
         if (productId != Guid.Empty)
         {
-            _logger.Log(LogLevel.Information, "Product id {0}", productId);
+            _logger.Log(LogLevel.Information, "Product id {id}", productId);
             try
             {
                 CurrentProduct = _productService.GetProductDetails(productId) ?? new Product();
             }
             catch (Exception e)
             {
-                _logger.LogError("Failed to get product details {0}", e.Message);
+                _logger.LogError("Failed to get product details {message}", e.Message);
             }
         }
 
@@ -133,7 +133,7 @@ public class ProductsModel : PageModel
             return Partial("_ProductForm", this);
         }
 
-        _logger.Log(LogLevel.Information, "New product being added {0} {1}", CurrentProduct.Brand, CurrentProduct.Name);
+        _logger.Log(LogLevel.Information, "New product being added {brand} {product}", CurrentProduct.Brand, CurrentProduct.Name);
         _productService.AddProductToInventory(CurrentProduct);
 
         ModelState.Clear(); // Allow inserting more products by cleaning up form and leaving it open for more entries
