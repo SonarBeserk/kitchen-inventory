@@ -35,14 +35,15 @@ public class ActivePageTagHelper : TagHelper
     /// <summary>The name of the action method.</summary>
     /// <remarks>Must be <c>null</c> if <see cref="P:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.Route" /> is non-<c>null</c>.</remarks>
     [HtmlAttributeName("asp-page")]
-    public string Page { get; set; }
+    public required string Page { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="T:Microsoft.AspNetCore.Mvc.Rendering.ViewContext" /> for the current request.
     /// </summary>
     [HtmlAttributeNotBound]
     [ViewContext]
-    public ViewContext ViewContext { get; set; }
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    public required ViewContext ViewContext { get; set; }
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
@@ -58,14 +59,8 @@ public class ActivePageTagHelper : TagHelper
 
     private bool ShouldBeActive()
     {
-        string currentPage = ViewContext.RouteData.Values["Page"].ToString();
-
-        if (!string.IsNullOrWhiteSpace(Page) && Page.ToLower() != currentPage.ToLower())
-        {
-            return false;
-        }
-
-        return true;
+        string? currentPage = ViewContext.RouteData.Values["Page"]?.ToString();
+        return string.IsNullOrWhiteSpace(Page) || currentPage != null && string.Equals(Page, currentPage, StringComparison.CurrentCultureIgnoreCase);
     }
 
     private void MakeActive(TagHelperOutput output)
@@ -76,11 +71,11 @@ public class ActivePageTagHelper : TagHelper
             classAttr = new TagHelperAttribute("class", "active");
             output.Attributes.Add(classAttr);
         }
-        else if (classAttr.Value == null || classAttr.Value.ToString().IndexOf("active") < 0)
+        else if (classAttr.Value == null || classAttr.Value.ToString()!.IndexOf("active", StringComparison.Ordinal) < 0)
         {
             output.Attributes.SetAttribute("class", classAttr.Value == null
                 ? "active"
-                : classAttr.Value.ToString() + " active");
+                : classAttr.Value + " active");
         }
     }
 }
