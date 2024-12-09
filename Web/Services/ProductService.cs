@@ -256,25 +256,10 @@ public class ProductService(SqliteConnection db) : IProductService
 
         command.Dispose(); // Reuse the command variable but release the old resources
 
-        int resp;
-
         // Product details need to be saved
         if (i == 0)
         {
-            command = db.CreateCommand();
-            command.CommandText = "INSERT INTO products(product_id, brand, name) " +
-                                  "VALUES (@id, @brand, @name);";
-            command.Parameters.AddWithValue("@id", product.Id);
-            command.Parameters.AddWithValue("@brand", product.Brand);
-            command.Parameters.AddWithValue("@name", product.Name);
-
-            resp = command.ExecuteNonQuery();
-            if (resp != 1)
-            {
-                Console.WriteLine("Failed to insert product {0} {1}", product.Brand, product.Name);
-            }
-
-            command.Dispose(); // Reuse the command variable but release the old resources
+            AddProduct(product);
         }
 
         command = db.CreateCommand();
@@ -289,7 +274,7 @@ public class ProductService(SqliteConnection db) : IProductService
         command.Parameters.AddWithValue("@amount", product.Amount);
         command.Parameters.AddWithValue("@locationId", product.LocationId.HasValue ? product.LocationId.Value : DBNull.Value);
 
-        resp = command.ExecuteNonQuery();
+        int resp = command.ExecuteNonQuery();
         if (resp != 1)
         {
             Console.WriteLine("Failed to add product to inventory {0} {1}", product.Brand, product.Name);
