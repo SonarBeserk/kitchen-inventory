@@ -92,9 +92,9 @@ public class ProductService(SqliteConnection db) : IProductService
 
         // SqlDataReader is based on ordinal values, using the string index does this anyway,
         // but we can use the helper functions if we grab the ordinal values directly.
-        var productId = reader.GetOrdinal("product_id");
-        var brand = reader.GetOrdinal("brand");
-        var name = reader.GetOrdinal("name");
+        int productId = reader.GetOrdinal("product_id");
+        int brand = reader.GetOrdinal("brand");
+        int name = reader.GetOrdinal("name");
 
         while (reader.Read())
         {
@@ -136,14 +136,14 @@ public class ProductService(SqliteConnection db) : IProductService
 
         // SqlDataReader is based on ordinal values, using the string index does this anyway,
         // but we can use the helper functions if we grab the ordinal values directly.
-        var productId = reader.GetOrdinal("product_id");
-        var brand = reader.GetOrdinal("brand");
-        var name = reader.GetOrdinal("name");
-        var expiry = reader.GetOrdinal("expiry");
-        var expiryType = reader.GetOrdinal("expiry_type");
-        var perishable = reader.GetOrdinal("perishable");
-        var amount = reader.GetOrdinal("amount");
-        var locationId = reader.GetOrdinal("location_id");
+        int productId = reader.GetOrdinal("product_id");
+        int brand = reader.GetOrdinal("brand");
+        int name = reader.GetOrdinal("name");
+        int expiry = reader.GetOrdinal("expiry");
+        int expiryType = reader.GetOrdinal("expiry_type");
+        int perishable = reader.GetOrdinal("perishable");
+        int amount = reader.GetOrdinal("amount");
+        int locationId = reader.GetOrdinal("location_id");
 
         while (reader.Read())
         {
