@@ -19,8 +19,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Microsoft.Data.Sqlite;
-
 namespace Web.Services;
 
 public interface IAccountService
@@ -28,7 +26,7 @@ public interface IAccountService
     public bool IsAdmin();
 }
 
-public class AccountService(SqliteConnection db) : IAccountService
+public class AccountService() : IAccountService
 {
     public bool IsAdmin()
     {
