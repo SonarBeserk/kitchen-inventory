@@ -58,7 +58,7 @@ public interface IProductService
     /// </summary>
     /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <param name="product">The new product</param>
-    public void AddProductDetails(Product product);
+    public void AddProduct(Product product);
 
     /// <summary>
     /// Adds a new product to the store including details such as location, expiry, and amount
@@ -214,7 +214,7 @@ public class ProductService(SqliteConnection db) : IProductService
     /// </summary>
     /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <param name="product">The new product</param>
-    public void AddProductDetails(Product product)
+    public void AddProduct(Product product)
     {
         var vc = new ValidationContext(product);
         Validator.ValidateObject(product, vc, true);
