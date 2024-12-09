@@ -35,7 +35,7 @@ public interface IProductService
     /// </summary>
     /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <returns>All products being stored</returns>
-    public List<Product> ListAllDetails();
+    public List<Product> ListProducts();
 
     /// <summary>
     /// Lists all products currently tracked by the inventory including locations
@@ -75,7 +75,7 @@ public class ProductService(SqliteConnection db) : IProductService
     /// </summary>
     /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <returns>All products being stored</returns>
-    public List<Product> ListAllDetails()
+    public List<Product> ListProducts()
     {
         var products = new List<Product>();
 
