@@ -51,7 +51,7 @@ public interface IProductService
     /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <exception cref="InvalidOperationException">Multiple product results are found which should not happen</exception>
     /// <returns>The product if found, otherwise null</returns>
-    public Product? GetProductDetails(Guid productId);
+    public Product? GetProduct(Guid productId);
 
     /// <summary>
     /// Adds a new product to the database
@@ -171,7 +171,7 @@ public class ProductService(SqliteConnection db) : IProductService
     /// <exception cref="SqliteException">Database exception occurred</exception>
     /// <exception cref="InvalidOperationException">Multiple product results are found which should not happen</exception>
     /// <returns>The product if found, otherwise null</returns>
-    public Product? GetProductDetails(Guid productId)
+    public Product? GetProduct(Guid productId)
     {
         var command = db.CreateCommand();
         command.CommandText = "SELECT products.product_id, products.brand, products.name FROM products WHERE products.product_id = @id LIMIT 1;";

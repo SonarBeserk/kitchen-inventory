@@ -105,7 +105,7 @@ public class ProductsModel : PageModel
             _logger.Log(LogLevel.Information, "Product id {id}", productId);
             try
             {
-                CurrentProduct = _productService.GetProductDetails(productId) ?? new Product();
+                CurrentProduct = _productService.GetProduct(productId) ?? new Product();
             }
             catch (Exception e)
             {
